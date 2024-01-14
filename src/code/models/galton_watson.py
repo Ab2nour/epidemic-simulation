@@ -1,7 +1,10 @@
 """Galton-Watson process."""
+import networkx as nx
 import numpy as np
 from matplotlib import pyplot as plt
 from scipy.stats import rv_discrete
+
+from src.code.plot.plot_tree import hierarchy_pos, color_options
 
 
 class GaltonWatson:
@@ -106,6 +109,43 @@ class GaltonWatson:
 
         if logscale:
             plt.yscale("log")
+
+    def plot_arbre(self) -> None:
+        """
+        Affiche l'arbre de Galton Watson du processus.
+
+        Returns
+        -------
+
+        """
+        liste_adjacence = []
+
+        numero = 0
+
+        for generation in self.liste_descendants:
+            for nb_descendants in generation:
+                for _ in range(nb_descendants):
+                    liste_adjacence.append([numero])
+                numero += 1
+
+        edge_list = []
+
+        for i in range(len(liste_adjacence)):
+            edge_list.append((liste_adjacence[i][0], i + 1))
+
+        e = nx.DiGraph(edge_list)
+        pos = hierarchy_pos(e)
+
+        nx.draw_networkx(e, pos=pos, with_labels=True, **color_options)
+
+        plt.axis("off")
+        plt.title("Arbre de Galton-Watson")
+
+        # todo: implémenter l'affichage circulaire des noeuds ?
+        # pos = hierarchy_pos(e, 0, width = 2*math.pi, xcenter=0)
+        # new_pos = {u:(r*math.cos(theta),r*math.sin(theta)) for u, (theta, r) in pos.items()}
+        # nx.draw(e, pos=new_pos, node_size = 50)
+        # nx.draw_networkx_nodes(G, pos=new_pos, nodelist = [0], node_color = 'blue', node_size = 200)
 
     def __repr__(self):
         nom_loi = self.loi.dist.name
