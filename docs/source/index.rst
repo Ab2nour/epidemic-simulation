@@ -9,6 +9,12 @@ Welcome to Epidemic Simulation's documentation!
 
 .. toctree::
    :maxdepth: 2
+   :caption: 📊 Analyse
+
+   notebooks/galton-watson.ipynb
+
+.. toctree::
+   :maxdepth: 2
    :caption: 📖 Reference
 
    modules.rst
