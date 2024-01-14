@@ -13,7 +13,9 @@ class GaltonWatson:
         self.nb_descendants = nb_descendants
         self.historique_nb_descendants: list[int] = [self.nb_descendants_initial]
 
-        self.liste_descendants: list[list[int]] = []  # fixme: ce sont des listes de np.ndarray
+        self.liste_descendants: list[
+            list[int]
+        ] = []  # fixme: ce sont des listes de np.ndarray
         self.n: int = 0  # numéro de l'époque
 
     def reset(self) -> None:
@@ -56,7 +58,9 @@ class GaltonWatson:
 
         return self.nb_descendants
 
-    def plot_historique_descendants(self, logscale: bool = False, affiche_moyenne: bool = False) -> None:
+    def plot_historique_descendants(
+        self, logscale: bool = False, affiche_moyenne: bool = False
+    ) -> None:
         """
         Affiche l'historique des descendants.
 
@@ -73,7 +77,9 @@ class GaltonWatson:
 
         if affiche_moyenne:
             x = np.arange(self.n + 1)
-            plt.plot(x, self.m ** x, label=r"Nombre de descendants prévu ($\mathbb{E}[L]^m$)")
+            plt.plot(
+                x, self.m**x, label=r"Nombre de descendants prévu ($\mathbb{E}[L]^m$)"
+            )
 
         plt.title("Historique du nombre de descendants")
         plt.xlabel("Numéro d'époque n")
@@ -104,10 +110,12 @@ class GaltonWatson:
     def __repr__(self):
         nom_loi = self.loi.dist.name
 
-        representation = (f"Processus Galton-Watson\n"
-                          f"- loi de reproduction L : {nom_loi}\n"
-                          f"- espérance E[L] = {self.m}\n"
-                          f"- époque n = {self.n}\n"
-                          f"- nombre de survivants Z_n = {self.nb_descendants}")
+        representation = (
+            f"Processus Galton-Watson\n"
+            f"- loi de reproduction L : {nom_loi}\n"
+            f"- espérance E[L] = {self.m}\n"
+            f"- époque n = {self.n}\n"
+            f"- nombre de survivants Z_n = {self.nb_descendants}"
+        )
 
         return representation
