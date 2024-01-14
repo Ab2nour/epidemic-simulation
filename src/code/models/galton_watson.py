@@ -21,6 +21,8 @@ class GaltonWatson:
         ] = []  # fixme: ce sont des listes de np.ndarray
         self.n: int = 0  # numéro de l'époque
 
+        self.simulations: list[int] = []
+
     def reset(self) -> None:
         """Réinitialise le processus de Galton-Watson.
 
@@ -62,7 +64,7 @@ class GaltonWatson:
         return self.nb_descendants
 
     def plot_historique_descendants(
-        self, logscale: bool = False, affiche_moyenne: bool = False
+            self, logscale: bool = False, affiche_moyenne: bool = False
     ) -> None:
         """
         Affiche l'historique des descendants.
@@ -76,19 +78,19 @@ class GaltonWatson:
         -------
 
         """
-        plt.plot(self.historique_nb_descendants, label="Nombre de descendants")
+        plt.plot(self.historique_nb_descendants)
 
         if affiche_moyenne:
             x = np.arange(self.n + 1)
             plt.plot(
-                x, self.m**x, label=r"Nombre de descendants prévu ($\mathbb{E}[L]^m$)"
+                x, self.m ** x, label=r"Nombre de descendants prévu ($\mathbb{E}[L]^n$)"
             )
+            plt.legend()
 
         plt.title("Historique du nombre de descendants")
         plt.xlabel("Numéro d'époque n")
         plt.ylabel("Nombre de descendants")
 
-        plt.legend()
 
         if logscale:
             plt.yscale("log")
@@ -147,7 +149,26 @@ class GaltonWatson:
         # nx.draw(e, pos=new_pos, node_size = 50)
         # nx.draw_networkx_nodes(G, pos=new_pos, nodelist = [0], node_color = 'blue', node_size = 200)
 
-    def __repr__(self):
+    def lance_simulations(self, nb_simulations: int, nb_epoques: int) -> list[int]:
+        self.simulations = []
+
+        for _ in range(nb_simulations):
+            self.reset()
+            resultat = self.simule(nb_epoques)
+            self.simulations.append(resultat)
+
+        return self.simulations
+
+    def plot_distribution_zn(self) -> None:
+        plt.title(f"Distribution des $Z_n$,\n$n = {self.n}$")
+        plt.hist(self.simulations)
+        plt.yscale("log")
+
+    def resultat_simulations_survie(self, nb_simulations: int, nb_epoques: int):
+        self.simulations = self.lance_simulations(nb_simulations, nb_epoques)
+
+
+    def __repr__(self) -> str:
         nom_loi = self.loi.dist.name
 
         representation = (
