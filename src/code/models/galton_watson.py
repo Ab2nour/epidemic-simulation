@@ -21,11 +21,25 @@ class GaltonWatson:
         self.loi = loi
         self.m = loi.mean()
 
+        self.nb_descendants_initial = nb_descendants
         self.nb_descendants = nb_descendants
-        self.historique_nb_descendants: list[int] = [nb_descendants]
+        self.historique_nb_descendants: list[int] = [self.nb_descendants_initial]
 
         self.liste_descendants: list[list[int]] = []  # fixme: ce sont des listes de np.ndarray
         self.n: int = 0  # numéro de l'époque
+
+    def reset(self) -> None:
+        """Réinitialise le processus de Galton-Watson.
+
+        Returns
+        -------
+
+        """
+        self.nb_descendants = self.nb_descendants_initial
+        self.historique_nb_descendants = [self.nb_descendants_initial]
+
+        self.liste_descendants = []
+        self.n = 0
 
     def simule(self, nb_epoques: int) -> int:
         """
