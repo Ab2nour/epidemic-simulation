@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="ProjectRootManager" version="2" project-jdk-name="Poetry (projet-transverse) (2)" project-jdk-type="Python SDK" />
+  <component name="Black">
+    <option name="sdkName" value="Poetry (epidemic-simulation)" />
+  </component>
+  <component name="ProjectRootManager" version="2" project-jdk-name="Poetry (epidemic-simulation)" project-jdk-type="Python SDK" />
   <component name="PyCharmDSProjectLayout">
     <option name="id" value="JupyterRightHiddenStructureLayout" />
   </component>
