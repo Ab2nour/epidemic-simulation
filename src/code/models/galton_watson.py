@@ -68,13 +68,13 @@ class GaltonWatson:
 
         return self.nb_descendants
 
-    def plot_historique_descendants(self, log: bool = False, affiche_moyenne: bool = False) -> None:
+    def plot_historique_descendants(self, logscale: bool = False, affiche_moyenne: bool = False) -> None:
         """
         Affiche l'historique des descendants.
 
         Parameters
         ----------
-        log: active l'échelle logarithmique
+        logscale: active l'échelle logarithmique
         affiche_moyenne: affiche l'évolution de E[L]^m
 
         Returns
@@ -84,7 +84,7 @@ class GaltonWatson:
         plt.plot(self.historique_nb_descendants, label="Nombre de descendants")
 
         if affiche_moyenne:
-            x = np.arange(self.n)
+            x = np.arange(self.n + 1)
             plt.plot(x, self.m ** x, label=r"Nombre de descendants prévu ($\mathbb{E}[L]^m$)")
 
         plt.title("Historique du nombre de descendants")
@@ -93,19 +93,24 @@ class GaltonWatson:
 
         plt.legend()
 
-        if log:
+        if logscale:
             plt.yscale("log")
 
-    def plot_zn_sur_n(self, log: bool = False) -> None:
+    def get_zn_sur_n(self):
         hist = np.array(self.historique_nb_descendants[1:])
         r = range(1, len(hist) + 1)  # fixme: choisir un meilleur nom de variable
-        plt.plot(r, hist / r)
+        return hist / r
+
+    def plot_zn_sur_n(self, logscale: bool = False) -> None:
+        hist = np.array(self.historique_nb_descendants[1:])
+        r = range(1, len(hist) + 1)  # fixme: choisir un meilleur nom de variable
+        plt.plot(r, self.get_zn_sur_n())
 
         plt.title(r"Évolution de $\dfrac{Z_n}{n}$")
         plt.xlabel("Numéro d'époque n")
         plt.ylabel(r"$\dfrac{Z_n}{n}$")
 
-        if log:
+        if logscale:
             plt.yscale("log")
 
     def __repr__(self):
