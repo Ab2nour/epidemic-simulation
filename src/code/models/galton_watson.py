@@ -23,6 +23,17 @@ class GaltonWatson:
         self.n: int = 0  # numéro de l'époque
 
     def simule(self, nb_epoques: int) -> int:
+        """
+        Simule le processus de Galton-Watson pendant nb_epoques époques.
+
+        Parameters
+        ----------
+        nb_epoques: Nombre d'époques à simuler
+
+        Returns
+        -------
+        Nombre de descendants
+        """
         epoque_actuelle = 0
 
         while epoque_actuelle < nb_epoques and self.nb_descendants > 0:
