@@ -25,10 +25,10 @@ author = "Ab2nour, jExbrayat"
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
 extensions = [
-    "myst_nb",
     "sphinx.ext.autodoc",
     "sphinx.ext.viewcode",
     "sphinx.ext.napoleon",
+    "myst_nb",
 ]
 
 templates_path = ["_templates"]
