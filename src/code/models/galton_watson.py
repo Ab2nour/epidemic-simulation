@@ -1,19 +1,7 @@
+"""Galton-Watson process."""
 import numpy as np
 from matplotlib import pyplot as plt
 from scipy.stats import rv_discrete
-
-
-def galton_watson(loi: rv_discrete, nb_epoques: int):
-    nb_descendants = 1
-
-    epoque_actuelle = 0
-
-    while epoque_actuelle < nb_epoques and nb_descendants > 0:
-        liste_descendants = loi.rvs(size=nb_descendants)
-        nb_descendants = np.sum(liste_descendants)
-        epoque_actuelle += 1
-
-    return nb_descendants
 
 
 class GaltonWatson:
