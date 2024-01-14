@@ -107,3 +107,14 @@ class GaltonWatson:
 
         if log:
             plt.yscale("log")
+
+    def __repr__(self):
+        nom_loi = self.loi.dist.name
+
+        representation = (f"Processus Galton-Watson\n"
+                          f"- loi de reproduction L : {nom_loi}\n"
+                          f"- espérance E[L] = {self.m}\n"
+                          f"- époque n = {self.n}\n"
+                          f"- nombre de survivants Z_n = {self.nb_descendants}")
+
+        return representation
