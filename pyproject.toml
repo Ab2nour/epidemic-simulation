@@ -17,13 +17,14 @@ networkx = "^3.2.1"
 
 
 [tool.poetry.group.dev.dependencies]
-black = "^23.12.1"
+black = {extras = ["jupyter"], version = "^23.12.1"}
 flake8 = "^7.0.0"
 isort = "^5.13.2"
 sphinx = "^7.2.6"
 sphinx-book-theme = "^1.1.0"
 myst-parser = "^2.0.0"
 myst-nb = "^1.0.0"
+nbqa = "^1.7.1"
 
 [build-system]
 requires = ["poetry-core"]
