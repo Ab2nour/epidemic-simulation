@@ -1,8 +1,7 @@
+import random
 from typing import Final
 
 import networkx as nx
-import random
-
 from matplotlib import pyplot as plt
 
 color_options: Final[dict[str, str]] = {
@@ -12,7 +11,9 @@ color_options: Final[dict[str, str]] = {
 }
 
 
-def hierarchy_pos(G, root=None, width=1., vert_gap=0.2, vert_loc=0, leaf_vs_root_factor=0.5):
+def hierarchy_pos(
+    G, root=None, width=1.0, vert_gap=0.2, vert_loc=0, leaf_vs_root_factor=0.5
+):
     """
     If the graph is a tree this will return the positions to plot this in a
     hierarchical layout.
@@ -61,17 +62,29 @@ def hierarchy_pos(G, root=None, width=1., vert_gap=0.2, vert_loc=0, leaf_vs_root
     xcenter: horizontal location of root
     """
     if not nx.is_tree(G):
-        raise TypeError('cannot use hierarchy_pos on a graph that is not a tree')
+        raise TypeError("cannot use hierarchy_pos on a graph that is not a tree")
 
     if root is None:
         if isinstance(G, nx.DiGraph):
-            root = next(iter(nx.topological_sort(G)))  # allows back compatibility with nx version 1.11
+            root = next(
+                iter(nx.topological_sort(G))
+            )  # allows back compatibility with nx version 1.11
         else:
             root = random.choice(list(G.nodes))
 
-    def _hierarchy_pos(G, root, leftmost, width, leafdx=0.2, vert_gap=0.2, vert_loc=0,
-                       xcenter=0.5, rootpos=None,
-                       leafpos=None, parent=None):
+    def _hierarchy_pos(
+        G,
+        root,
+        leftmost,
+        width,
+        leafdx=0.2,
+        vert_gap=0.2,
+        vert_loc=0,
+        xcenter=0.5,
+        rootpos=None,
+        leafpos=None,
+        parent=None,
+    ):
         """
         see hierarchy_pos docstring for most arguments
 
@@ -95,11 +108,19 @@ def hierarchy_pos(G, root=None, width=1., vert_gap=0.2, vert_loc=0, leaf_vs_root
             nextx = xcenter - width / 2 - rootdx / 2
             for child in children:
                 nextx += rootdx
-                rootpos, leafpos, newleaves = _hierarchy_pos(G, child, leftmost + leaf_count * leafdx,
-                                                             width=rootdx, leafdx=leafdx,
-                                                             vert_gap=vert_gap, vert_loc=vert_loc - vert_gap,
-                                                             xcenter=nextx, rootpos=rootpos, leafpos=leafpos,
-                                                             parent=root)
+                rootpos, leafpos, newleaves = _hierarchy_pos(
+                    G,
+                    child,
+                    leftmost + leaf_count * leafdx,
+                    width=rootdx,
+                    leafdx=leafdx,
+                    vert_gap=vert_gap,
+                    vert_loc=vert_loc - vert_gap,
+                    xcenter=nextx,
+                    rootpos=rootpos,
+                    leafpos=leafpos,
+                    parent=root,
+                )
                 leaf_count += newleaves
 
             leftmostchild = min((x for x, y in [leafpos[child] for child in children]))
@@ -112,20 +133,36 @@ def hierarchy_pos(G, root=None, width=1., vert_gap=0.2, vert_loc=0, leaf_vs_root
         #        print(leaf_count)
         return rootpos, leafpos, leaf_count
 
-    xcenter = width / 2.
+    xcenter = width / 2.0
     if isinstance(G, nx.DiGraph):
-        leafcount = len([node for node in nx.descendants(G, root) if G.out_degree(node) == 0])
+        leafcount = len(
+            [node for node in nx.descendants(G, root) if G.out_degree(node) == 0]
+        )
     elif isinstance(G, nx.Graph):
-        leafcount = len([node for node in nx.node_connected_component(G, root) if G.degree(node) == 1 and node != root])
-    rootpos, leafpos, leaf_count = _hierarchy_pos(G, root, 0, width,
-                                                  leafdx=width * 1. / leafcount,
-                                                  vert_gap=vert_gap,
-                                                  vert_loc=vert_loc,
-                                                  xcenter=xcenter)
+        leafcount = len(
+            [
+                node
+                for node in nx.node_connected_component(G, root)
+                if G.degree(node) == 1 and node != root
+            ]
+        )
+    rootpos, leafpos, leaf_count = _hierarchy_pos(
+        G,
+        root,
+        0,
+        width,
+        leafdx=width * 1.0 / leafcount,
+        vert_gap=vert_gap,
+        vert_loc=vert_loc,
+        xcenter=xcenter,
+    )
     pos = {}
     for node in rootpos:
         pos[node] = (
-            leaf_vs_root_factor * leafpos[node][0] + (1 - leaf_vs_root_factor) * rootpos[node][0], leafpos[node][1])
+            leaf_vs_root_factor * leafpos[node][0]
+            + (1 - leaf_vs_root_factor) * rootpos[node][0],
+            leafpos[node][1],
+        )
     #    pos = {node:(leaf_vs_root_factor*x1+(1-leaf_vs_root_factor)*x2, y1) for ((x1,y1), (x2,y2)) in (leafpos[node], rootpos[node]) for node in rootpos}
     xmax = max(x for x, y in pos.values())
     for node in pos:

@@ -4,7 +4,7 @@ import numpy as np
 from matplotlib import pyplot as plt
 from scipy.stats import rv_discrete
 
-from src.code.plot.plot_tree import hierarchy_pos, color_options
+from src.code.plot.plot_tree import color_options, hierarchy_pos
 
 
 class GaltonWatson:
@@ -64,7 +64,7 @@ class GaltonWatson:
         return self.nb_descendants
 
     def plot_historique_descendants(
-            self, logscale: bool = False, affiche_moyenne: bool = False
+        self, logscale: bool = False, affiche_moyenne: bool = False
     ) -> None:
         """
         Affiche l'historique des descendants.
@@ -83,14 +83,13 @@ class GaltonWatson:
         if affiche_moyenne:
             x = np.arange(self.n + 1)
             plt.plot(
-                x, self.m ** x, label=r"Nombre de descendants prévu ($\mathbb{E}[L]^n$)"
+                x, self.m**x, label=r"Nombre de descendants prévu ($\mathbb{E}[L]^n$)"
             )
             plt.legend()
 
         plt.title("Historique du nombre de descendants")
         plt.xlabel("Numéro d'époque n")
         plt.ylabel("Nombre de descendants")
-
 
         if logscale:
             plt.yscale("log")
@@ -166,7 +165,6 @@ class GaltonWatson:
 
     def resultat_simulations_survie(self, nb_simulations: int, nb_epoques: int):
         self.simulations = self.lance_simulations(nb_simulations, nb_epoques)
-
 
     def __repr__(self) -> str:
         nom_loi = self.loi.dist.name
