@@ -183,3 +183,13 @@ class GaltonWatson:
         )
 
         return representation
+
+
+class SimulateurGaltonWatson:
+    def __init__(self, loi: rv_discrete, nb_descendants: int = 1, nb_simulations: int = 1_000):
+        self.nb_simulations = nb_simulations
+        self.simulations: list[GaltonWatson] = [GaltonWatson(loi, nb_descendants) for _ in range(nb_simulations)]
+
+    def simule(self, nb_epoques: int = 10) -> None:
+        for i in range(self.nb_simulations):
+            self.simulations[i].simule(nb_epoques)
