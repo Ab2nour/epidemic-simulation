@@ -3,15 +3,17 @@ Welcome to Epidemic Simulation's documentation!
 
 .. toctree::
    :maxdepth: 2
-   :caption: 📒 Demo notebooks
+   :caption: 📊 Analyse
 
-   demo-notebooks/galton-watson.ipynb
+   notebooks/loi-reproduction.ipynb
+   notebooks/galton-watson.ipynb
+   notebooks/theoreme-yaglom.ipynb
 
 .. toctree::
    :maxdepth: 2
-   :caption: 📊 Analyse
+   :caption: 📒 Demo notebooks
 
-   notebooks/galton-watson.ipynb
+   demo-notebooks/galton-watson.ipynb
 
 .. toctree::
    :maxdepth: 2
