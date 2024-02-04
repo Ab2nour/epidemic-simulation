@@ -23,14 +23,19 @@ class GaltonWatson:
 
         self.simulations: list[int] = []
 
-    def reset(self) -> None:
+    def reset(self, nb_descendants: int | None) -> None:
         """Réinitialise le processus de Galton-Watson.
 
+        todo: documenter le fait qu'on peut changer le nombre de descendants initiaux
         Returns
         -------
 
         """
-        self.nb_descendants = self.nb_descendants_initial
+        if nb_descendants is None:
+            self.nb_descendants = self.nb_descendants_initial
+        else:
+            self.nb_descendants = nb_descendants
+            
         self.historique_nb_descendants = [self.nb_descendants_initial]
 
         self.liste_descendants = []
