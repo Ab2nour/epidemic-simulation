@@ -1,14 +1,14 @@
-,Loi de reproduction,Espérance,Variance
-0,Poisson (λ = 1),1,1.0
-1,"Uniforme {0, 1, 2}",1,0.66667
-2,"Binomiale (n=2, p=1/2)",1,0.5
-3,"Binomiale (n=10, p=1/10)",1,0.9
-4,"Binomiale (n=50, p=1/50)",1,0.98
-5,"Bêta-Binomiale (n=2, α=3, β=3)",1,0.57143
-6,"Bêta-Binomiale (n=5, α=5, β=20)",1,0.92308
-7,"Bêta-Binomiale (n=3, α=5, β=10)",1,0.75
-8,"Bêta-Binomiale (n=10, α=5, β=45)",1,1.05882
-9,"Négative Binomiale (n=1, p=0.5)",1,2.0
-10,"Négative Binomiale (n=10, p=10/11)",1,1.1
-11,"Hyper-Géométrique (N=10, n=2, p=0.5)",1,0.44444
-12,"Hyper-Géométrique (N=100, n=10, p=0.1)",1,0.81818
+Loi de reproduction,Espérance,Variance,Lambda théorique loi exponentielle Z_n / n
+Poisson (λ = 1),1,1.0,2.0
+"Uniforme {0, 1, 2}",1,0.66667,3.0
+"Binomiale (n=2, p=1/2)",1,0.5,4.0
+"Binomiale (n=10, p=1/10)",1,0.9,2.2222222222222223
+"Binomiale (n=50, p=1/50)",1,0.98,2.0408163265306123
+"Bêta-Binomiale (n=2, α=3, β=3)",1,0.57143,3.5
+"Bêta-Binomiale (n=5, α=5, β=20)",1,0.92308,2.1666666666666665
+"Bêta-Binomiale (n=3, α=5, β=10)",1,0.75,2.666666666666666
+"Bêta-Binomiale (n=10, α=5, β=45)",1,1.05882,1.8888888888888888
+"Négative Binomiale (n=1, p=0.5)",1,2.0,1.0
+"Négative Binomiale (n=10, p=10/11)",1,1.1,1.8181818181818172
+"Hyper-Géométrique (N=10, n=2, p=0.5)",1,0.44444,4.5
+"Hyper-Géométrique (N=100, n=10, p=0.1)",1,0.81818,2.444444444444444
