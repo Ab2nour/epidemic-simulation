@@ -1,13 +1,10 @@
 import matplotlib.pyplot as plt
 import numpy as np
-import scipy.stats as stats
 import seaborn as sns
 from scipy.stats import rv_discrete
 
 from src.code.simulation.galton_watson import GaltonWatson, SimulateurGaltonWatson
-from src.code.simulation.utils import plot_zn_distribution, test_loi_exponentielle
-from src.config.config import seed
-from src.utils.utils import init_notebook
+from src.code.simulation.utils import test_loi_exponentielle
 
 
 def processus_critique_survivant(
