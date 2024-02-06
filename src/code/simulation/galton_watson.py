@@ -187,13 +187,43 @@ class GaltonWatson:
 
 class SimulateurGaltonWatson:
     def __init__(
-        self, loi: rv_discrete, nb_descendants: int = 1, nb_simulations: int = 1_000
+        self, loi: rv_discrete, nb_descendants: int = 1, nb_processus: int = 1_000
     ):
-        self.nb_simulations = nb_simulations
+        self.nb_processus = nb_processus
         self.simulations: list[GaltonWatson] = [
-            GaltonWatson(loi, nb_descendants) for _ in range(nb_simulations)
+            GaltonWatson(loi, nb_descendants) for _ in range(nb_processus)
         ]
 
     def simule(self, nb_epoques: int = 10) -> None:
-        for i in range(self.nb_simulations):
+        for i in range(self.nb_processus):
             self.simulations[i].simule(nb_epoques)
+
+    def get_n(self) -> np.ndarray:
+        return np.array([self.simulations[i].n for i in range(self.nb_processus)])
+
+    def nombre_survivants(self) -> np.ndarray:
+        return np.array(
+            [self.simulations[i].nb_descendants for i in range(self.nb_processus)]
+        )
+
+    def survecus_seulement(self) -> list[GaltonWatson]:
+        """Renvoie la liste des processus de Galton-Watson ayant survécu :
+        on conditionne donc à la survie."""
+        survecus = []
+
+        for i in range(self.nb_processus):
+            processus_actuel = self.simulations[i]
+
+            if processus_actuel.nb_descendants > 0:
+                survecus.append(processus_actuel)
+
+        self.nb_processus = len(survecus)
+
+        return survecus
+
+    def retire_processus_eteints(self) -> None:
+        """Retire les processus éteints du simulateur."""
+        self.simulations = self.survecus_seulement()
+
+    def get_zn_sur_n(self):
+        return self.nombre_survivants() / self.get_n()
