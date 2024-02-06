@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 from matplotlib import pyplot as plt
 from scipy import stats
 
@@ -37,3 +38,26 @@ def create_distributions() -> dict[str, stats.rv_discrete]:
     }
 
     return distributions
+
+
+def create_distributions_df() -> pd.DataFrame:
+    distributions = create_distributions()
+
+    distributions_dict = {
+        "Loi de reproduction": [],
+        "Espérance": [],
+        "Variance": [],
+        "Lambda théorique loi exponentielle Z_n / n": [],
+    }
+
+    for name, distribution in distributions.items():
+        distributions_dict["Loi de reproduction"].append(name)
+        distributions_dict["Espérance"].append(1)
+        distributions_dict["Variance"].append(round(distribution.var(), 5))
+        distributions_dict["Lambda théorique loi exponentielle Z_n / n"].append(
+            2 / distribution.var()
+        )
+
+    df_distribution = pd.DataFrame(distributions_dict)
+
+    return df_distribution

@@ -67,3 +67,28 @@ def simulation_yaglom(
         evolution_lambda.append(lambda_estime)
 
     return evolution_p_value, evolution_ks, evolution_lambda
+
+
+def simulation_yaglom_toutes_lois(
+        distributions: dict[str, rv_discrete],
+        nb_processus: int,
+        taille_pas: int,
+        nb_repetitions: int,
+) -> tuple[dict[str, list[float]], dict[str, list[float]], dict[str, list[float]]]:
+    p_value_dict: dict[str, list[float]] = {}
+    ks_dict: dict[str, list[float]] = {}
+    lambda_dict: dict[str, list[float]] = {}
+
+    for nom_loi, loi in distributions.items():
+        p_value, ks, lambda_ = simulation_yaglom(
+            loi,
+            nb_processus=nb_processus,
+            taille_pas=taille_pas,
+            nb_repetitions=nb_repetitions,
+        )
+
+        p_value_dict[nom_loi] = p_value
+        ks_dict[nom_loi] = ks
+        lambda_dict[nom_loi] = lambda_
+
+    return p_value_dict, ks_dict, lambda_dict
