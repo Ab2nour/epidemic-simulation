@@ -9,7 +9,9 @@ from src.config.config import seed
 from src.utils.utils import init_notebook
 
 
-def processus_critique_survivant(gp: GaltonWatson, nb_simulations: int = 1_000, nb_epoques: int = 100) -> np.ndarray:
+def processus_critique_survivant(
+    gp: GaltonWatson, nb_simulations: int = 1_000, nb_epoques: int = 100
+) -> np.ndarray:
     simulations = gp.lance_simulations(nb_simulations, nb_epoques)
     simulations = np.array(simulations)
 
