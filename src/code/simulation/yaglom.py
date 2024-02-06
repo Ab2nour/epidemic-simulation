@@ -70,10 +70,10 @@ def simulation_yaglom(
 
 
 def simulation_yaglom_toutes_lois(
-        distributions: dict[str, rv_discrete],
-        nb_processus: int,
-        taille_pas: int,
-        nb_repetitions: int,
+    distributions: dict[str, rv_discrete],
+    nb_processus: int,
+    taille_pas: int,
+    nb_repetitions: int,
 ) -> tuple[dict[str, list[float]], dict[str, list[float]], dict[str, list[float]]]:
     p_value_dict: dict[str, list[float]] = {}
     ks_dict: dict[str, list[float]] = {}
