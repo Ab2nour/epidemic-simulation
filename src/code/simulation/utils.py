@@ -22,7 +22,7 @@ def plot_zn_distribution(resultats_simulation: list[int], nb_epoques: int) -> No
 
 def test_loi_exponentielle(
     donnees: np.ndarray, affiche_resultat: bool = False
-) -> float:
+) -> tuple[float, float]:
     lambda_estime = 1.0 / np.mean(donnees)  # maximum de vraisemblance
 
     statistique_ks, p_value = kstest(donnees, "expon", args=(0, 1 / lambda_estime))
@@ -36,4 +36,4 @@ def test_loi_exponentielle(
         else:
             print("Les données suivent une loi exponentielle.")
 
-    return p_value
+    return p_value, statistique_ks
