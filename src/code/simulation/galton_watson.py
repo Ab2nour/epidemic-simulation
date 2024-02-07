@@ -69,7 +69,7 @@ class GaltonWatson:
         return self.nb_descendants
 
     def plot_historique_descendants(
-            self, logscale: bool = False, affiche_moyenne: bool = False
+        self, logscale: bool = False, affiche_moyenne: bool = False
     ) -> None:
         """
         Affiche l'historique des descendants.
@@ -88,7 +88,7 @@ class GaltonWatson:
         if affiche_moyenne:
             x = np.arange(self.n + 1)
             plt.plot(
-                x, self.m ** x, label=r"Nombre de descendants prévu ($\mathbb{E}[L]^n$)"
+                x, self.m**x, label=r"Nombre de descendants prévu ($\mathbb{E}[L]^n$)"
             )
             plt.legend()
 
@@ -143,7 +143,10 @@ class GaltonWatson:
 
         if circular:
             pos = hierarchy_pos(e, 0, width=2 * np.pi)
-            new_pos = {u: (r * np.cos(theta), r * np.sin(theta)) for u, (theta, r) in pos.items()}
+            new_pos = {
+                u: (r * np.cos(theta), r * np.sin(theta))
+                for u, (theta, r) in pos.items()
+            }
             nx.draw_networkx(e, pos=new_pos, with_labels=with_labels, **color_options)
         else:
             pos = hierarchy_pos(e)
@@ -186,7 +189,7 @@ class GaltonWatson:
 
 class SimulateurGaltonWatson:
     def __init__(
-            self, loi: rv_discrete, nb_descendants: int = 1, nb_processus: int = 1_000
+        self, loi: rv_discrete, nb_descendants: int = 1, nb_processus: int = 1_000
     ):
         self.nb_processus = nb_processus
         self.simulations: list[GaltonWatson] = [

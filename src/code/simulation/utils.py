@@ -4,7 +4,7 @@ from scipy.stats import kstest
 
 
 def plot_zn_distribution(resultats_simulation: list[int], nb_epoques: int) -> None:
-    _, ax = plt.subplots(1, 2, figsize=(10, 4))
+    _, ax = plt.subplots(1, 2, figsize=(15, 4))
 
     ax[0].set_title(f"Distribution des $Z_n$,\n$n = {nb_epoques}$")
     ax[1].set_title(f"Distribution des $Z_n$,\n$n = {nb_epoques}$")
