@@ -8,6 +8,7 @@ Welcome to Epidemic Simulation's documentation!
    notebooks/loi-reproduction.ipynb
    notebooks/galton-watson.ipynb
    notebooks/theoreme-yaglom.ipynb
+   maths/yaglom-theorem.md
 
 .. toctree::
    :maxdepth: 2
