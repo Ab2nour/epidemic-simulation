@@ -35,7 +35,7 @@ def set_seed(seed: int = 0) -> None:
 
 def set_plot_options() -> None:
     """Sets default plotting options."""
-    sns.set_theme()
+    sns.set_theme(context="talk", style="ticks", rc={"axes.grid": True})
 
 
 def init_notebook(seed: int = 0) -> None:
