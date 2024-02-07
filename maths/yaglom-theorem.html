@@ -1,0 +1,579 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Lemme admis &#8212; Epidemic Simulation  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=384b581d" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=19b21d1c" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=bd9e20870c6007c4c509" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=bd9e20870c6007c4c509" />
+  <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=bd9e20870c6007c4c509"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'maths/yaglom-theorem';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Utilisation de la classe GaltonWatson" href="../demo-notebooks/galton-watson.html" />
+    <link rel="prev" title="Théorème de Yaglom" href="../notebooks/theoreme-yaglom.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <header>
+  
+    <div class="bd-header navbar navbar-expand-lg bd-navbar">
+    </div>
+  
+  </header>
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Epidemic Simulation  documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">📊 Analyse</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/loi-reproduction.html">Lois de reproduction choisies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/galton-watson.html">Simulation Galton-Watson</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/theoreme-yaglom.html">Théorème de Yaglom</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Lemme admis</a></li>
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">📒 Demo notebooks</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../demo-notebooks/galton-watson.html">Utilisation de la classe GaltonWatson</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">📖 Reference</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../docstring/modules.html">Epidemic Simulation</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="simple">
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/maths/yaglom-theorem.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Lemme admis</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Lemme admis</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#corollaire-equivalent-de-p-z-n-0-quand-n-to-infty">Corollaire : équivalent de <span class="math notranslate nohighlight">\(P(Z_n &gt; 0)\)</span> quand <span class="math notranslate nohighlight">\(n \to +\infty\)</span></a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#vitesse-de-divergence-de-e-z-n-z-n-0">Vitesse de divergence de <span class="math notranslate nohighlight">\(E[Z_n | Z_n &gt; 0]\)</span></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#demonstration">Démonstration</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#probleme-auxiliaire">Problème auxiliaire</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#resolution-du-probleme-auxiliaire">Résolution du problème auxiliaire</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="lemme-admis">
+<h1>Lemme admis<a class="headerlink" href="#lemme-admis" title="Link to this heading">#</a></h1>
+<p>Si <span class="math notranslate nohighlight">\(E[Z_1] = 1\)</span> et <span class="math notranslate nohighlight">\(Var[Z_1] &lt; +\infty\)</span> alors,</p>
+<div class="math notranslate nohighlight">
+\[
+\lim_{n \to +\infty} \frac{1}{n} * (\frac{1}{1-f_n(t)} - \frac{1}{1-t}) = \frac{\sigma^2}{2}
+, \hspace{8px} \forall t \in [0, 1[
+\]</div>
+<section id="corollaire-equivalent-de-p-z-n-0-quand-n-to-infty">
+<h2>Corollaire : équivalent de <span class="math notranslate nohighlight">\(P(Z_n &gt; 0)\)</span> quand <span class="math notranslate nohighlight">\(n \to +\infty\)</span><a class="headerlink" href="#corollaire-equivalent-de-p-z-n-0-quand-n-to-infty" title="Link to this heading">#</a></h2>
+<p>En évaluant l’égalité du lemme en <span class="math notranslate nohighlight">\(t=0\)</span>, on obtient</p>
+<div class="math notranslate nohighlight">
+\[ \lim_{n \to +\infty} \frac{1}{n} * (\frac{1}{1-f_n(0)}) - \frac{1}{n} = \frac{\sigma^2}{2}
+\]</div>
+<p>Comme <span class="math notranslate nohighlight">\(\displaystyle \lim_{n \to +\infty} \frac{1}{n} = 0\)</span>, on a alors
+$<span class="math notranslate nohighlight">\( (\frac{1}{1-f_n(0)}) \sim \frac{n * \sigma^2}{2}
+\)</span><span class="math notranslate nohighlight">\(
+c'est à dire
+\)</span><span class="math notranslate nohighlight">\( 1-f_n(0) \sim \frac{2}{n * \sigma^2}
+\)</span><span class="math notranslate nohighlight">\(
+ou encore
+\)</span><span class="math notranslate nohighlight">\( P(Z_n &gt; 0) \sim \frac{2}{n * \sigma^2}
+\)</span>$</p>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="vitesse-de-divergence-de-e-z-n-z-n-0">
+<h1>Vitesse de divergence de <span class="math notranslate nohighlight">\(E[Z_n | Z_n &gt; 0]\)</span><a class="headerlink" href="#vitesse-de-divergence-de-e-z-n-z-n-0" title="Link to this heading">#</a></h1>
+<p>Le corollaire peut nous donner une idée de la vitesse de divergence du processus <span class="math notranslate nohighlight">\(Z_n | Z_n &gt; 0\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+    E[Z_n | Z_n &gt; 0] &amp;= \sum_{k=0}^{+\infty} k * P(Z_n = k | Z_n &gt; 0)
+    \hspace{10px} \text{par définition de l'espérance} \\
+    &amp;= \sum_{k=0}^{+\infty} k * \frac{P(Z_n = k \cap Z_n &gt; 0)}{P(Z_n &gt; 0)} \hspace{10px} \text{en utilisant la formule de Bayes}\\
+\end{align*}
+\end{split}\]</div>
+<p>Or <span class="math notranslate nohighlight">\(\hspace{10px} P(Z_n = k \cap Z_n &gt; 0) = P(Z_n = k), \forall k \ge 1\)</span><br />
+et, pour <span class="math notranslate nohighlight">\(\hspace{4px} k=0, \hspace{6px} 0 * P(Z_n = 0 \cap Z_n &gt; 0) = 0 * P(Z_n = 0)\)</span><br />
+d’où <span class="math notranslate nohighlight">\(\hspace{6px} \displaystyle \sum_{k=0}^{+\infty} k * P(Z_n = k \cap Z_n &gt; 0) = \sum_{k=0}^{+\infty} k * P(Z_n = k)\)</span><br />
+Ce qui nous donne
+$$</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+    E[Z_n | Z_n &gt; 0] &amp;= \frac{1}{P(Z_n &gt; 0)} \sum_{k=0}^{+\infty} k * P(Z_n = k) \\
+    &amp;= \frac{E[Z_n]}{P(Z_n &gt; 0)} \\
+    &amp;= \frac{m^n}{P(Z_n &gt; 0)} \\
+    &amp;= \frac{1}{P(Z_n &gt; 0)}
+\end{align*}\]</div>
+<div class="math notranslate nohighlight">
+\[ \begin{align}\begin{aligned}
+Car nous sommes dans le cas critique où $m=1$.  \\Finalement, grâce au corollaire on obtient immédiatement que $E[Z_n | Z_n &gt; 0] \sim \frac{n * \sigma^2}{2}$\\# Théorème de Yaglom
+Comme la moyenne du processus conditionné $Z_n | Z_n &gt; 0$ diverge à la même vitesse que $n$, il vient l'idée de diviser ce processus par un facteur $n$. De la sorte, nous pourrons tomber sur un processus qui converge vers une loi exponentielle de paramètre $\frac{2}{\sigma^2}$.  \\Ce résultat est donné par le théorème de Yaglom :  \\Si $E[Z_1] = 1$ et $Var[Z_1] = \sigma^2 &lt; +\infty$ alors,  
+$$ \lim_{n \to +\infty} P(\frac{Z_n}{n} &gt; z | Z_n &gt; 0) = \exp{(\frac{-2 z}{\sigma^2})}, \hspace{10px} \forall z \ge 0
+\end{aligned}\end{align} \]</div>
+<section id="demonstration">
+<h2>Démonstration<a class="headerlink" href="#demonstration" title="Link to this heading">#</a></h2>
+<section id="probleme-auxiliaire">
+<h3>Problème auxiliaire<a class="headerlink" href="#probleme-auxiliaire" title="Link to this heading">#</a></h3>
+<p>En utilisant les transformées de Laplace, on admet qu’il suffit de démontrer l’égalité suivante :
+$<span class="math notranslate nohighlight">\( \lim_{n \to +\infty} E[\exp{(-\alpha * \frac{Z_n}{n})} | Z_n &gt; 0]
+    = \frac{1}{1 + \frac{\alpha \sigma^2}{2}}
+\)</span>$</p>
+<p>En effet, on peut retrouver la partie droite de l’égalité en écrivant la transformée de Laplace de <span class="math notranslate nohighlight">\(\exp{(\frac{-2 z}{\sigma^2})}\)</span> :</p>
+<div class="math notranslate nohighlight">
+\[\begin{split} \begin{align*}
+    \mathcal{L}(\exp{(\frac{-2 z}{\sigma^2})})
+        &amp;= \frac{1}{\alpha + \frac{2}{\sigma^2}} \\
+        &amp;= \frac{2}{2 + \alpha \sigma^2} \\
+        &amp;= \frac{1}{1 + \frac{\alpha \sigma^2}{2}}
+\end{align*}
+\end{split}\]</div>
+<p>La partie gauche de l’égalité peut être retrouvée en utilisant la transformée de Laplace pour une variable aléatoire :
+$<span class="math notranslate nohighlight">\(\begin{align*}
+\mathcal{L}_{X} : &amp; \hspace{6px} \mathbb{R} \to \mathbb{R} \\
+      &amp; \hspace{6px} t \to \mathbb{E}[e^{tX}]
+\end{align*}
+\)</span><span class="math notranslate nohighlight">\(
+Par identification, il faut prendre \)</span>\mathcal{L}_{\frac{Z_n}{n}}(- \alpha)$.<br />
+Cependant, je ne sais pas expliquer comment le passage par ces transformées conserve l’égalité.</p>
+</section>
+<section id="resolution-du-probleme-auxiliaire">
+<h3>Résolution du problème auxiliaire<a class="headerlink" href="#resolution-du-probleme-auxiliaire" title="Link to this heading">#</a></h3>
+<p>Partont de la partie gauche de l’égalité.<br />
+On admet le résultat suivant :
+$<span class="math notranslate nohighlight">\(E[\exp{(-\alpha * \frac{Z_n}{n})} | Z_n &gt; 0] = \frac{f_n(\mathbb{e^{-\alpha / n}}) - f_n(0)}{1 - f_n{0}}
+\)</span>$</p>
+<p>On peut réécrire la partie de droite sous une forme qui fait apparaître le résultat du corollaire :
+$<span class="math notranslate nohighlight">\( \begin{align*}
+\frac{f_n(\mathbb{e^{-\alpha / n}}) - f_n(0)}{1 - f_n{0}}
+    &amp;= \frac{1 - f_n(0) - (1 - f_n(\mathbb{e^{-\alpha / n}}))}{1 - f_n{0}} \\
+    &amp;= 1 - \frac{1 - f_n(\mathbb{e^{-\alpha / n}})}{1 - f_n{0}} \\
+    &amp;= 1 - \frac{[n * (1 - f_n(\mathbb{e^{-\alpha / n}}))]^{-1}}{[n * (1 - f_n{0})]^{-1}}
+\end{align*}
+\)</span>$</p>
+<p>On sait, par le corollaire du lemme, que
+<span class="math notranslate nohighlight">\(\displaystyle \lim_{n \to +\infty} \frac{1}{n} * (\frac{1}{1-f_n(0)}) = \frac{\sigma^2}{2}\)</span>.</p>
+<p>Par ailleurs, en utilisant la convergence uniforme, on a
+<span class="math notranslate nohighlight">\(
+\displaystyle \lim_{n \to +\infty} \frac{1}{n(1-f_n(e^{-\alpha / n}))}
+= \frac{\sigma^2}{2} + \lim_{n \to +\infty} \frac{1}{n(1-e^{-\alpha / n})}
+= \frac{\sigma^2}{2} + \frac{1}{\alpha}
+\)</span>.</p>
+<p>Finalement, en passant à la limite, on a :
+$$</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\lim_{n \to +\infty} E[\exp{(-\alpha * \frac{Z_n}{n})} | Z_n &gt; 0]
+    &amp;= 1 - \frac{\frac{\sigma^2}{2}}{\frac{\sigma^2}{2} + \frac{1}{\alpha}} \\
+    &amp;= 1 - \frac{1}{1 + \frac{2}{\alpha \sigma^2}}
+    \hspace{10px} \text{en factorisant par $\sigma^2 / 2$} \\
+    &amp;= 1 - \frac{\alpha \sigma^2}{\alpha \sigma^2 + 2} \\
+    &amp;= \frac{2}{\alpha \sigma^2 + 2} \\
+    &amp;= \frac{1}{\frac{\alpha \sigma^2}{2} + 1}
+\end{align*}\]</div>
+<p>$$
+Et on trouve bien le membre de droite de l’égalité auxiliaire que nous cherchions à démontrer.</p>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../notebooks/theoreme-yaglom.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Théorème de Yaglom</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../demo-notebooks/galton-watson.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Utilisation de la classe GaltonWatson</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Lemme admis</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#corollaire-equivalent-de-p-z-n-0-quand-n-to-infty">Corollaire : équivalent de <span class="math notranslate nohighlight">\(P(Z_n &gt; 0)\)</span> quand <span class="math notranslate nohighlight">\(n \to +\infty\)</span></a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#vitesse-de-divergence-de-e-z-n-z-n-0">Vitesse de divergence de <span class="math notranslate nohighlight">\(E[Z_n | Z_n &gt; 0]\)</span></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#demonstration">Démonstration</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#probleme-auxiliaire">Problème auxiliaire</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#resolution-du-probleme-auxiliaire">Résolution du problème auxiliaire</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Ab2nour, jExbrayat
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024, Ab2nour, jExbrayat.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=bd9e20870c6007c4c509"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=bd9e20870c6007c4c509"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
