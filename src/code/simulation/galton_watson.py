@@ -69,7 +69,7 @@ class GaltonWatson:
         return self.nb_descendants
 
     def plot_historique_descendants(
-        self, logscale: bool = False, affiche_moyenne: bool = False
+            self, logscale: bool = False, affiche_moyenne: bool = False
     ) -> None:
         """
         Affiche l'historique des descendants.
@@ -88,7 +88,7 @@ class GaltonWatson:
         if affiche_moyenne:
             x = np.arange(self.n + 1)
             plt.plot(
-                x, self.m**x, label=r"Nombre de descendants prévu ($\mathbb{E}[L]^n$)"
+                x, self.m ** x, label=r"Nombre de descendants prévu ($\mathbb{E}[L]^n$)"
             )
             plt.legend()
 
@@ -116,7 +116,7 @@ class GaltonWatson:
         if logscale:
             plt.yscale("log")
 
-    def plot_arbre(self) -> None:
+    def plot_arbre(self, with_labels: bool = True, circular: bool = False) -> None:
         """
         Affiche l'arbre de Galton Watson du processus.
 
@@ -140,18 +140,17 @@ class GaltonWatson:
             edge_list.append((liste_adjacence[i][0], i + 1))
 
         e = nx.DiGraph(edge_list)
-        pos = hierarchy_pos(e)
 
-        nx.draw_networkx(e, pos=pos, with_labels=True, **color_options)
+        if circular:
+            pos = hierarchy_pos(e, 0, width=2 * np.pi)
+            new_pos = {u: (r * np.cos(theta), r * np.sin(theta)) for u, (theta, r) in pos.items()}
+            nx.draw_networkx(e, pos=new_pos, with_labels=with_labels, **color_options)
+        else:
+            pos = hierarchy_pos(e)
+            nx.draw_networkx(e, pos=pos, with_labels=with_labels, **color_options)
 
         plt.axis("off")
         plt.title("Arbre de Galton-Watson")
-
-        # todo: implémenter l'affichage circulaire des noeuds ?
-        # pos = hierarchy_pos(e, 0, width = 2*math.pi, xcenter=0)
-        # new_pos = {u:(r*math.cos(theta),r*math.sin(theta)) for u, (theta, r) in pos.items()}
-        # nx.draw(e, pos=new_pos, node_size = 50)
-        # nx.draw_networkx_nodes(G, pos=new_pos, nodelist = [0], node_color = 'blue', node_size = 200)
 
     def lance_simulations(self, nb_simulations: int, nb_epoques: int) -> list[int]:
         self.simulations = []
@@ -187,7 +186,7 @@ class GaltonWatson:
 
 class SimulateurGaltonWatson:
     def __init__(
-        self, loi: rv_discrete, nb_descendants: int = 1, nb_processus: int = 1_000
+            self, loi: rv_discrete, nb_descendants: int = 1, nb_processus: int = 1_000
     ):
         self.nb_processus = nb_processus
         self.simulations: list[GaltonWatson] = [
