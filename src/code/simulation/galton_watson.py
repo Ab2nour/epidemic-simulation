@@ -3,6 +3,7 @@ import networkx as nx
 import numpy as np
 from matplotlib import pyplot as plt
 from scipy.stats import rv_discrete
+from joblib import Parallel, delayed
 
 from src.code.plot.plot_tree import color_options, hierarchy_pos
 
@@ -199,6 +200,9 @@ class SimulateurGaltonWatson:
     def simule(self, nb_epoques: int = 10) -> None:
         for i in range(self.nb_processus):
             self.simulations[i].simule(nb_epoques)
+        # todo: add parallelization
+        # _ = Parallel(n_jobs=-2)(delayed())
+        # Parallel(n_jobs=1)(delayed(sqrt)(i ** 2) for i in range(10))
 
     def get_n(self) -> np.ndarray:
         return np.array([self.simulations[i].n for i in range(self.nb_processus)])
