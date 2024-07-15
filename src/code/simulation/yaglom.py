@@ -2,13 +2,14 @@ import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
 from scipy.stats import rv_discrete
-
 from src.code.simulation.galton_watson import GaltonWatson, SimulateurGaltonWatson
 from src.code.simulation.utils import test_loi_exponentielle
 
 
 def processus_critique_survivant(
-    gp: GaltonWatson, nb_simulations: int = 1_000, nb_epoques: int = 100
+    gp: GaltonWatson,
+    nb_simulations: int = 1_000,
+    nb_epoques: int = 100,
 ) -> np.ndarray:
     simulations = gp.lance_simulations(nb_simulations, nb_epoques)
     simulations = np.array(simulations)
@@ -35,7 +36,8 @@ def simulation_yaglom(
     `taille_echantillon` correspond, pour l'affichage, à la taille du sous-ensemble
     des Z_n / n affichés (car autrement, il y aurait beaucoup plus de processus
     ayant survécu pour n petit, que pour n grand, simple question d'équité pour
-    l'affichage)"""
+    l'affichage)
+    """
     evolution_p_value = []
     evolution_ks = []
     evolution_lambda = []
@@ -51,9 +53,9 @@ def simulation_yaglom(
 
         if affichage:
             plt.title(
-                "Distribution des $\dfrac{Z_n}{n}$ à l'époque $n = "
+                r"Distribution des $\dfrac{Z_n}{n}$ à l'époque $n = "
                 + str((i + 1) * taille_pas)
-                + "$"
+                + "$",
             )
             sns.histplot(zn_sur_n_sample, stat="density")
             plt.show()

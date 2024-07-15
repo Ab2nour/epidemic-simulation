@@ -21,7 +21,8 @@ def plot_zn_distribution(resultats_simulation: list[int], nb_epoques: int) -> No
 
 
 def test_loi_exponentielle(
-    donnees: np.ndarray, affiche_resultat: bool = False
+    donnees: np.ndarray,
+    affiche_resultat: bool = False,
 ) -> tuple[float, float]:
     lambda_estime = 1.0 / np.mean(donnees)  # maximum de vraisemblance
 

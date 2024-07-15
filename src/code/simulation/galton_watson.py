@@ -1,9 +1,9 @@
 """Galton-Watson process."""
+
 import networkx as nx
 import numpy as np
 from matplotlib import pyplot as plt
 from scipy.stats import rv_discrete
-
 from src.code.plot.plot_tree import color_options, hierarchy_pos
 
 
@@ -27,6 +27,7 @@ class GaltonWatson:
         """Réinitialise le processus de Galton-Watson.
 
         todo: documenter le fait qu'on peut changer le nombre de descendants initiaux
+
         Returns
         -------
 
@@ -42,8 +43,7 @@ class GaltonWatson:
         self.n = 0
 
     def simule(self, nb_epoques: int) -> int:
-        """
-        Simule le processus de Galton-Watson pendant nb_epoques époques.
+        """Simule le processus de Galton-Watson pendant nb_epoques époques.
 
         Parameters
         ----------
@@ -52,6 +52,7 @@ class GaltonWatson:
         Returns
         -------
         Nombre de descendants
+
         """
         epoque_actuelle = 0
 
@@ -69,10 +70,11 @@ class GaltonWatson:
         return self.nb_descendants
 
     def plot_historique_descendants(
-        self, logscale: bool = False, affiche_moyenne: bool = False
+        self,
+        logscale: bool = False,
+        affiche_moyenne: bool = False,
     ) -> None:
-        """
-        Affiche l'historique des descendants.
+        """Affiche l'historique des descendants.
 
         Parameters
         ----------
@@ -88,7 +90,9 @@ class GaltonWatson:
         if affiche_moyenne:
             x = np.arange(self.n + 1)
             plt.plot(
-                x, self.m**x, label=r"Nombre de descendants prévu ($\mathbb{E}[L]^n$)"
+                x,
+                self.m**x,
+                label=r"Nombre de descendants prévu ($\mathbb{E}[L]^n$)",
             )
             plt.legend()
 
@@ -117,8 +121,7 @@ class GaltonWatson:
             plt.yscale("log")
 
     def plot_arbre(self, with_labels: bool = True, circular: bool = False) -> None:
-        """
-        Affiche l'arbre de Galton Watson du processus.
+        """Affiche l'arbre de Galton Watson du processus.
 
         Returns
         -------
@@ -189,7 +192,10 @@ class GaltonWatson:
 
 class SimulateurGaltonWatson:
     def __init__(
-        self, loi: rv_discrete, nb_descendants: int = 1, nb_processus: int = 1_000
+        self,
+        loi: rv_discrete,
+        nb_descendants: int = 1,
+        nb_processus: int = 1_000,
     ):
         self.nb_processus = nb_processus
         self.simulations: list[GaltonWatson] = [
@@ -205,12 +211,13 @@ class SimulateurGaltonWatson:
 
     def nombre_survivants(self) -> np.ndarray:
         return np.array(
-            [self.simulations[i].nb_descendants for i in range(self.nb_processus)]
+            [self.simulations[i].nb_descendants for i in range(self.nb_processus)],
         )
 
     def survecus_seulement(self) -> list[GaltonWatson]:
         """Renvoie la liste des processus de Galton-Watson ayant survécu :
-        on conditionne donc à la survie."""
+        on conditionne donc à la survie.
+        """
         survecus = []
 
         for i in range(self.nb_processus):
@@ -227,5 +234,5 @@ class SimulateurGaltonWatson:
         """Retire les processus éteints du simulateur."""
         self.simulations = self.survecus_seulement()
 
-    def get_zn_sur_n(self):
+    def get_zn_sur_n(self) -> np.ndarray:
         return self.nombre_survivants() / self.get_n()

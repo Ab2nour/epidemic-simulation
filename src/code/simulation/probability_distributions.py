@@ -5,7 +5,8 @@ from scipy import stats
 
 
 def plot_distribution(
-    distribution: stats.rv_discrete, sample_size: int = 5_000
+    distribution: stats.rv_discrete,
+    sample_size: int = 5_000,
 ) -> None:
     tirage = distribution.rvs(sample_size)
 
@@ -55,7 +56,7 @@ def create_distributions_df() -> pd.DataFrame:
         distributions_dict["Espérance"].append(1)
         distributions_dict["Variance"].append(round(distribution.var(), 5))
         distributions_dict["Lambda théorique loi exponentielle Z_n / n"].append(
-            2 / distribution.var()
+            2 / distribution.var(),
         )
 
     df_distribution = pd.DataFrame(distributions_dict)

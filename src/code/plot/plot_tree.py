@@ -2,7 +2,6 @@ import random
 from typing import Final
 
 import networkx as nx
-from matplotlib import pyplot as plt
 
 color_options: Final[dict[str, str]] = {
     "node_color": "#ffffff",
@@ -12,10 +11,14 @@ color_options: Final[dict[str, str]] = {
 
 
 def hierarchy_pos(
-    G, root=None, width=1.0, vert_gap=0.2, vert_loc=0, leaf_vs_root_factor=0.5
+    G,
+    root=None,
+    width=1.0,
+    vert_gap=0.2,
+    vert_loc=0,
+    leaf_vs_root_factor=0.5,
 ):
-    """
-    If the graph is a tree this will return the positions to plot this in a
+    """If the graph is a tree this will return the positions to plot this in a
     hierarchical layout.
 
     Based on Joel's answer at https://stackoverflow.com/a/29597209/2966723,
@@ -62,12 +65,13 @@ def hierarchy_pos(
     xcenter: horizontal location of root
     """
     if not nx.is_tree(G):
-        raise TypeError("cannot use hierarchy_pos on a graph that is not a tree")
+        error_msg = "cannot use hierarchy_pos on a graph that is not a tree"
+        raise TypeError(error_msg)
 
     if root is None:
         if isinstance(G, nx.DiGraph):
             root = next(
-                iter(nx.topological_sort(G))
+                iter(nx.topological_sort(G)),
             )  # allows back compatibility with nx version 1.11
         else:
             root = random.choice(list(G.nodes))
@@ -85,14 +89,12 @@ def hierarchy_pos(
         leafpos=None,
         parent=None,
     ):
-        """
-        see hierarchy_pos docstring for most arguments
+        """See hierarchy_pos docstring for most arguments
 
         pos: a dict saying where all nodes go if they have been assigned
         parent: parent of this branch. - only affects it if non-directed
 
         """
-
         if rootpos is None:
             rootpos = {root: (xcenter, vert_loc)}
         else:
@@ -136,7 +138,7 @@ def hierarchy_pos(
     xcenter = width / 2.0
     if isinstance(G, nx.DiGraph):
         leafcount = len(
-            [node for node in nx.descendants(G, root) if G.out_degree(node) == 0]
+            [node for node in nx.descendants(G, root) if G.out_degree(node) == 0],
         )
     elif isinstance(G, nx.Graph):
         leafcount = len(
@@ -144,7 +146,7 @@ def hierarchy_pos(
                 node
                 for node in nx.node_connected_component(G, root)
                 if G.degree(node) == 1 and node != root
-            ]
+            ],
         )
     rootpos, leafpos, leaf_count = _hierarchy_pos(
         G,
