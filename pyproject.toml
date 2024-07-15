@@ -38,6 +38,7 @@ ruff = "^0.5.2"
 [tool.isort]
 profile = "black"
 
+
 [tool.ruff]
 extend-include = ["*.ipynb"]
 src = ["src"]
@@ -63,6 +64,8 @@ lint.select = [
     "NPY",
     "FURB",
 ]
+[tool.ruff.lint.pydocstyle]
+convention = "numpy"
 
 [tool.poe]
 [tool.poe.tasks.format]
