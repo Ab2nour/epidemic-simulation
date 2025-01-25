@@ -145,3 +145,14 @@ nav.bd-links p.bd-links__title, nav.bd-links p.caption {
   border-bottom: 1px solid var(--pst-color-border);
   font-weight: 500;
 }
+
+/* Table of contents (right) */
+
+.toc-entry a.nav-link:hover {
+    text-decoration-thickness: 1px;
+}
+
+.toc-entry a.nav-link.active {
+    font-weight: 400;
+    box-shadow: inset 2px 0 0 var(--pst-color-primary);
+}
