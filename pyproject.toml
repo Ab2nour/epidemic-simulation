@@ -28,3 +28,63 @@ dev = [
     "sphinx-book-theme>=1.1.4",
     "sphinx-rtd-theme>=3.1.0",
 ]
+
+[tool.poe]
+    [tool.poe.tasks.test]
+    help = "Test the codebase"
+    sequence = [
+        {cmd = "uv run pytest --doctest-modules"},
+    ]
+
+    [tool.poe.tasks.format]
+    help = "Format the files"
+    sequence = [
+        {cmd = "uv run ruff format"},
+    ]
+
+    [tool.poe.tasks.lint]
+    help = "Lint the files"
+    sequence = [
+        {cmd = "uv run ruff check --fix"},
+    ]
+
+    [tool.poe.tasks.check]
+    help = "Check formatting & linting"
+    sequence = [
+        {cmd = "uv run ruff format --check"},
+        {cmd = "uv run ruff check"},
+    ]
+
+    [tool.poe.tasks.nbcheck]
+    help = "Check notebooks for unnecessary metadata & empty cells"
+    cmd = "nb-clean check . --preserve-cell-outputs --remove-empty-cells"
+
+    [tool.poe.tasks.nbclean]
+    help = "Clean notebook metadatas & empty cells"
+    sequence = [
+        { cmd = "nbdev_clean --fname ." },
+        { cmd = "nb-clean clean . --preserve-cell-outputs --remove-empty-cells"},
+    ]
+
+    [tool.poe.tasks.nbrun]
+    help = "Run notebooks to see if they work"
+    shell = """
+    RED='\\033[0;31m'
+    NC='\\033[0m' # No Color
+
+    for input_file in $(find src docs/source -type f -name "*.ipynb"); do
+      echo "${RED}Notebook: ${input_file}${NC}"
+      papermill "$input_file" temp.ipynb
+    done
+
+    rm temp.ipynb
+    """
+
+    [tool.poe.tasks.nbqa]
+    help = "Run all QA tools on notebooks"
+    sequence = [
+        { ref = "format" },
+        { ref = "nbclean" },
+        { ref = "nbcheck" },
+        { ref = "nbrun" },
+    ]
