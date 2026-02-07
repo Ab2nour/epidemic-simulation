@@ -1,6 +1,12 @@
 name: CI
 
-on: pull_request
+on:
+  pull_request:
+    branches:
+      - "main"
+  push:
+    branches:
+      - "main"
 
 jobs:
   qa-py:
@@ -9,24 +15,28 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
-          python-version: "3.10"
-      - uses: snok/install-poetry@v1
+          python-version-file: ".python-version"
 
-      - name: Install dependencies
-        run: poetry install
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
 
-      - name: Run Black to check formatting
-        run: poetry run black --check .
-
-      - name: Run isort
+      - name: Install the project
         run: |
-          poetry run isort --check .
-          poetry run nbqa isort --check --float-to-top .
+          uv sync --all-extras --dev
+          uv tool install poethepoet
 
-      - name: Run nb-clean to check for unnecessary metadata and empty cells in notebooks
-        run: poetry run nb-clean check . --preserve-cell-outputs --remove-empty-cells
+      - name: Check formatting & linting
+        run: poe check
+
+      - name: Notebooks - check for unnecessary metadata and empty cells
+        run: poe nbcheck
+
+      - name: Unit tests
+        run: poe test
 
       - name: Run notebooks to see if they execute without errors
-        run: poetry run poe nbrun
+        run: poe nbrun
