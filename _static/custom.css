@@ -1,0 +1,238 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Sans+Condensed:wght@300;400&family=Inter:wght@400;500;600;700;900&family=JetBrains+Mono:ital@0;1&display=swap');
+
+pre,
+code,
+kbd,
+samp {
+    font-family: JetBrains Mono, var(--pst-font-family-monospace);
+    line-height: 1.75 !important;
+}
+
+body {
+    font-family: Inter, var(--pst-font-family-base);
+}
+
+p {
+    font-family: Inter, var(--pst-font-family-base);
+    line-height: 1.75;
+}
+
+.heading-style,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: Inter, var(--pst-font-family-heading);
+    border-bottom: 1px solid var(--pst-color-border);
+    padding-bottom: 4px;
+}
+
+html {
+    --pst-font-size-h1: 2rem;
+    --pst-font-size-h2: 1.75rem;
+    --pst-font-size-h3: 1.5rem;
+    --pst-font-size-h4: 1.25rem;
+    --pst-font-size-h5: 1em;
+    --pst-font-size-h6: 1em;
+}
+
+.bd-article-container h3,
+.bd-article-container h4,
+.bd-article-container h5,
+.bd-article-container p.caption {
+    font-weight: 300;
+}
+
+.sig {
+    font-family: JetBrains Mono, var(--pst-font-family-monospace);
+    letter-spacing: -1px;
+    border-bottom: 1px solid var(--pst-color-border);
+    margin-bottom: 12px;
+}
+
+.field-odd p strong {
+    font-family: JetBrains Mono;
+    font-size: 0.9em;
+}
+
+.field-odd p em {
+    font-style: normal;
+    font-family: JetBrains Mono;
+    font-size: 0.85em;
+    color: var(--pst-color-text-muted);
+}
+
+dl[class]:not(.option-list):not(.field-list):not(.footnote):not(.glossary):not(.simple) dt.field-even,
+dl[class]:not(.option-list):not(.field-list):not(.footnote):not(.glossary):not(.simple) dt.field-odd {
+    font-family: Fira Sans Condensed;
+}
+
+/* Icon buttons (top of the page) */
+.bd-header-article .btn {
+    font-size: 1rem;
+}
+
+/* Main article */
+@media (min-width: 1200px) {
+    .bd-main .bd-content .bd-article-container {
+        max-width: 850px;
+        padding: 0 4rem 1.5rem;
+    }
+}
+
+/* Previous & next buttons (bottom of main article) */
+@media (min-width: 1200px) {
+    .prev-next-area a {
+        margin: 12px;
+    }
+}
+
+.prev-next-area a p.prev-next-title {
+    text-decoration: none;
+}
+
+.prev-next-area a:hover p.prev-next-title:hover {
+    text-decoration: none;
+}
+
+.prev-next-area a:visited p.prev-next-title,
+.prev-next-area a p.prev-next-title {
+    color: var(--pst-color-text-base);
+}
+
+a.left-prev:hover .prev-next-title, /* todo: doesn't work as expected */
+a.right-next:hover .prev-next-title {
+    color: var(--pst-color-link-hover);
+}
+
+.prev-next-area a {
+    border: 1px solid var(--pst-color-border);
+    border-radius: 7px;
+    padding: 14px 16px;
+}
+
+.prev-next-area a p.prev-next-subtitle {
+    font-size: 0.8em;
+}
+
+.prev-next-area a p.prev-next-title {
+    font-size: 0.88em;
+    text-align: left;
+    font-weight: 500;
+}
+
+.prev-next-area {
+    height: 100%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.prev-next-area a .prev-next-info .prev-next-subtitle {
+    text-transform: uppercase;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    margin-bottom: 6px;
+}
+
+.prev-next-area a.right-next div.prev-next-info,
+.prev-next-area a.left-prev div.prev-next-info {
+    height: 100%;
+}
+
+.prev-next-area a p.prev-next-title {
+    line-height: 1.5;
+}
+
+/* Function & class methods signature */
+.sig-name {
+    font-size: 1em;
+}
+
+.sig-param {
+    font-size: 0.9em;
+    font-weight: 400;
+    font-style: normal;
+    letter-spacing: 0;
+}
+
+.sig-return-typehint {
+    font-size: 0.9em;
+    font-weight: 400;
+    font-style: normal;
+    letter-spacing: 0;
+}
+
+.sig-paren {
+    font-weight: normal;
+    font-size: 1em;
+}
+
+/* Jupyter Notebook cells */
+div.cell div.cell_input,
+div.cell details.above-input > summary {
+    border: none;
+    border-left: 2px solid var(--pst-color-border);
+    border-radius: 0;
+}
+
+/* Code line numbers */
+span.linenos {
+    padding-right: 10px !important;
+    margin-right: 15px;
+    border-right: 1px solid var(--pst-color-border);
+}
+
+div.highlight,
+div.literal-block-wrapper,
+div[class*="highlight-"] {
+    border-radius: 0;
+}
+
+/* Miscellaneous */
+.viewcode-link {
+    font-size: 0.85em;
+    font-weight: normal;
+}
+
+
+.toctree-wrapper li[class^="toctree-l"] > a {
+    font-size: 1em;
+}
+
+.toctree-wrapper .toctree-l1 > a {
+    font-weight: bold;
+}
+
+.toctree-wrapper.compound p:first-child {
+    font-family: Fira Sans Condensed;
+    border-bottom: 1px solid var(--pst-color-border);
+    margin-top: 32px;
+    margin-bottom: 12px;
+}
+
+/* Table of contents (left) */
+nav.bd-links p.bd-links__title, nav.bd-links p.caption {
+    border-bottom: 1px solid var(--pst-color-border);
+    font-weight: 500;
+}
+
+nav.bd-links .current > a {
+    box-shadow: inset 2px 0 0 var(--pst-color-primary);
+}
+
+/* Table of contents (right) */
+.toc-entry a.nav-link {
+    font-size: 14px;
+}
+
+.toc-entry a.nav-link:hover {
+    text-decoration-thickness: 1px;
+}
+
+.toc-entry a.nav-link.active {
+    font-weight: 400;
+    box-shadow: inset 2px 0 0 var(--pst-color-text-base);
+    color: var(--pst-color-text-base);
+}

@@ -1,0 +1,1020 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Théorème de Yaglom &#8212; Epidemic Simulation  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=dc72a539" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/theoreme-yaglom';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Théorème de Yaglom" href="../maths/yaglom-theorem.html" />
+    <link rel="prev" title="Simulation Galton-Watson" href="galton-watson.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Epidemic Simulation  documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">📊 Analyse</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="loi-reproduction.html">Lois de reproduction choisies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="galton-watson.html">Simulation Galton-Watson</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Théorème de Yaglom</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../maths/yaglom-theorem.html">Théorème de Yaglom</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">📒 Demo notebooks</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../demo-notebooks/galton-watson.html">Utilisation de la classe GaltonWatson</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">📖 Reference</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../docstring/modules.html">Epidemic Simulation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/notebooks/theoreme-yaglom.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Théorème de Yaglom</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mise-au-propre-yaglom">Mise au propre Yaglom</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#graphiques">Graphiques</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#p-values">p-values</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#toutes-les-lois-de-reproduction">Toutes les lois de reproduction</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#lois-de-reproduction-groupees">Lois de reproduction groupées</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#statistique-ks">Statistique KS</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distance-au-lambda-theorique">Distance au lambda théorique</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#evolution-de-la-distribution">Évolution de la distribution</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#graphique-transparent-pour-le-style">Graphique transparent (pour le style)</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="linenos"> 2</span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="linenos"> 3</span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="linenos"> 4</span><span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
+<span class="linenos"> 5</span><span class="kn">from</span><span class="w"> </span><span class="nn">src.code.simulation.galton_watson</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimulateurGaltonWatson</span>
+<span class="linenos"> 6</span><span class="kn">from</span><span class="w"> </span><span class="nn">src.code.simulation.probability_distributions</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+<span class="linenos"> 7</span>    <span class="n">create_distributions</span><span class="p">,</span>
+<span class="linenos"> 8</span>    <span class="n">create_distributions_df</span><span class="p">,</span>
+<span class="linenos"> 9</span><span class="p">)</span>
+<span class="linenos">10</span><span class="kn">from</span><span class="w"> </span><span class="nn">src.code.simulation.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">test_loi_exponentielle</span>
+<span class="linenos">11</span><span class="kn">from</span><span class="w"> </span><span class="nn">src.code.simulation.yaglom</span><span class="w"> </span><span class="kn">import</span> <span class="n">simulation_yaglom_toutes_lois</span>
+<span class="linenos">12</span><span class="kn">from</span><span class="w"> </span><span class="nn">src.config.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">seed</span>
+<span class="linenos">13</span><span class="kn">from</span><span class="w"> </span><span class="nn">src.utils.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">init_notebook</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="n">init_notebook</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section class="tex2jax_ignore mathjax_ignore" id="theoreme-de-yaglom">
+<h1>Théorème de Yaglom<a class="headerlink" href="#theoreme-de-yaglom" title="Link to this heading">#</a></h1>
+<section id="mise-au-propre-yaglom">
+<h2>Mise au propre Yaglom<a class="headerlink" href="#mise-au-propre-yaglom" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="n">distributions</span> <span class="o">=</span> <span class="n">create_distributions</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.05</span>
+<span class="linenos">2</span><span class="n">nb_processus</span> <span class="o">=</span> <span class="mi">30_000</span>
+<span class="linenos">3</span><span class="n">taille_pas</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="linenos">4</span><span class="n">nb_repetitions</span> <span class="o">=</span> <span class="mi">100</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="n">p_value_dict</span><span class="p">,</span> <span class="n">ks_dict</span><span class="p">,</span> <span class="n">lambda_dict</span> <span class="o">=</span> <span class="n">simulation_yaglom_toutes_lois</span><span class="p">(</span>
+<span class="linenos">2</span>    <span class="n">distributions</span><span class="p">,</span>
+<span class="linenos">3</span>    <span class="n">nb_processus</span><span class="p">,</span>
+<span class="linenos">4</span>    <span class="n">taille_pas</span><span class="p">,</span>
+<span class="linenos">5</span>    <span class="n">nb_repetitions</span><span class="p">,</span>
+<span class="linenos">6</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">KeyboardInterrupt</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">5</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">p_value_dict</span><span class="p">,</span> <span class="n">ks_dict</span><span class="p">,</span> <span class="n">lambda_dict</span> <span class="o">=</span> <span class="n">simulation_yaglom_toutes_lois</span><span class="p">(</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span>     <span class="n">distributions</span><span class="p">,</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span>     <span class="n">nb_processus</span><span class="p">,</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span>     <span class="n">taille_pas</span><span class="p">,</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span>     <span class="n">nb_repetitions</span><span class="p">,</span>
+<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="p">)</span>
+
+<span class="nn">File ~/work/epidemic-simulation/epidemic-simulation/src/code/simulation/yaglom.py:85,</span> in <span class="ni">simulation_yaglom_toutes_lois</span><span class="nt">(distributions, nb_processus, taille_pas, nb_repetitions)</span>
+<span class="g g-Whitespace">     </span><span class="mi">82</span> <span class="n">lambda_dict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="g g-Whitespace">     </span><span class="mi">84</span> <span class="k">for</span> <span class="n">nom_loi</span><span class="p">,</span> <span class="n">loi</span> <span class="ow">in</span> <span class="n">distributions</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+<span class="ne">---&gt; </span><span class="mi">85</span>     <span class="n">p_value</span><span class="p">,</span> <span class="n">ks</span><span class="p">,</span> <span class="n">lambda_</span> <span class="o">=</span> <span class="n">simulation_yaglom</span><span class="p">(</span>
+<span class="g g-Whitespace">     </span><span class="mi">86</span>         <span class="n">loi</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">87</span>         <span class="n">nb_processus</span><span class="o">=</span><span class="n">nb_processus</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">88</span>         <span class="n">taille_pas</span><span class="o">=</span><span class="n">taille_pas</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">89</span>         <span class="n">nb_repetitions</span><span class="o">=</span><span class="n">nb_repetitions</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">90</span>     <span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">92</span>     <span class="n">p_value_dict</span><span class="p">[</span><span class="n">nom_loi</span><span class="p">]</span> <span class="o">=</span> <span class="n">p_value</span>
+<span class="g g-Whitespace">     </span><span class="mi">93</span>     <span class="n">ks_dict</span><span class="p">[</span><span class="n">nom_loi</span><span class="p">]</span> <span class="o">=</span> <span class="n">ks</span>
+
+<span class="nn">File ~/work/epidemic-simulation/epidemic-simulation/src/code/simulation/yaglom.py:48,</span> in <span class="ni">simulation_yaglom</span><span class="nt">(loi, nb_processus, taille_pas, nb_repetitions, taille_echantillon, affichage)</span>
+<span class="g g-Whitespace">     </span><span class="mi">45</span> <span class="n">sim</span> <span class="o">=</span> <span class="n">SimulateurGaltonWatson</span><span class="p">(</span><span class="n">loi</span><span class="p">,</span> <span class="n">nb_processus</span><span class="o">=</span><span class="n">nb_processus</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">47</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nb_repetitions</span><span class="p">):</span>
+<span class="ne">---&gt; </span><span class="mi">48</span>     <span class="n">sim</span><span class="o">.</span><span class="n">simule</span><span class="p">(</span><span class="n">nb_epoques</span><span class="o">=</span><span class="n">taille_pas</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">49</span>     <span class="n">sim</span><span class="o">.</span><span class="n">retire_processus_eteints</span><span class="p">()</span>
+<span class="g g-Whitespace">     </span><span class="mi">51</span>     <span class="n">zn_sur_n</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">get_zn_sur_n</span><span class="p">()</span>
+
+<span class="nn">File ~/work/epidemic-simulation/epidemic-simulation/src/code/simulation/galton_watson.py:207,</span> in <span class="ni">SimulateurGaltonWatson.simule</span><span class="nt">(self, nb_epoques)</span>
+<span class="g g-Whitespace">    </span><span class="mi">205</span> <span class="k">def</span><span class="w"> </span><span class="nf">simule</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nb_epoques</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">206</span>     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nb_processus</span><span class="p">):</span>
+<span class="ne">--&gt; </span><span class="mi">207</span>         <span class="bp">self</span><span class="o">.</span><span class="n">simulations</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">simule</span><span class="p">(</span><span class="n">nb_epoques</span><span class="p">)</span>
+
+<span class="nn">File ~/work/epidemic-simulation/epidemic-simulation/src/code/simulation/galton_watson.py:60,</span> in <span class="ni">GaltonWatson.simule</span><span class="nt">(self, nb_epoques)</span>
+<span class="g g-Whitespace">     </span><span class="mi">57</span> <span class="n">epoque_actuelle</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="g g-Whitespace">     </span><span class="mi">59</span> <span class="k">while</span> <span class="n">epoque_actuelle</span> <span class="o">&lt;</span> <span class="n">nb_epoques</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">nb_descendants</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+<span class="ne">---&gt; </span><span class="mi">60</span>     <span class="n">liste_descendants</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loi</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">nb_descendants</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">61</span>     <span class="bp">self</span><span class="o">.</span><span class="n">liste_descendants</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">liste_descendants</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">63</span>     <span class="bp">self</span><span class="o">.</span><span class="n">nb_descendants</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">liste_descendants</span><span class="p">)</span>
+
+<span class="nn">File ~/work/epidemic-simulation/epidemic-simulation/.venv/lib/python3.14/site-packages/scipy/stats/_distn_infrastructure.py:544,</span> in <span class="ni">rv_frozen.rvs</span><span class="nt">(self, size, random_state)</span>
+<span class="g g-Whitespace">    </span><span class="mi">542</span> <span class="n">kwds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">kwds</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">543</span> <span class="n">kwds</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;size&#39;</span><span class="p">:</span> <span class="n">size</span><span class="p">,</span> <span class="s1">&#39;random_state&#39;</span><span class="p">:</span> <span class="n">random_state</span><span class="p">})</span>
+<span class="ne">--&gt; </span><span class="mi">544</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dist</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+
+<span class="nn">File ~/work/epidemic-simulation/epidemic-simulation/.venv/lib/python3.14/site-packages/scipy/stats/_distn_infrastructure.py:3501,</span> in <span class="ni">rv_discrete.rvs</span><span class="nt">(self, *args, **kwargs)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3472</span><span class="w"> </span><span class="sd">&quot;&quot;&quot;Random variates of given type.</span>
+<span class="g g-Whitespace">   </span><span class="mi">3473</span><span class="sd"> </span>
+<span class="g g-Whitespace">   </span><span class="mi">3474</span><span class="sd"> Parameters</span>
+<span class="sd">   (...)   3498 </span>
+<span class="g g-Whitespace">   </span><span class="mi">3499</span><span class="sd"> &quot;&quot;&quot;</span>
+<span class="g g-Whitespace">   </span><span class="mi">3500</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;discrete&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="ne">-&gt; </span><span class="mi">3501</span> <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<span class="nn">File ~/work/epidemic-simulation/epidemic-simulation/.venv/lib/python3.14/site-packages/scipy/stats/_distn_infrastructure.py:1113,</span> in <span class="ni">rv_generic.rvs</span><span class="nt">(self, *args, **kwds)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1111</span> <span class="n">args</span><span class="p">,</span> <span class="n">loc</span><span class="p">,</span> <span class="n">scale</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_args_rvs</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1112</span> <span class="n">cond</span> <span class="o">=</span> <span class="n">logical_and</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_argcheck</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">),</span> <span class="p">(</span><span class="n">scale</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">))</span>
+<span class="ne">-&gt; </span><span class="mi">1113</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">cond</span><span class="p">):</span>
+<span class="g g-Whitespace">   </span><span class="mi">1114</span>     <span class="n">message</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;Domain error in arguments. The `scale` parameter must &quot;</span>
+<span class="g g-Whitespace">   </span><span class="mi">1115</span>                <span class="s2">&quot;be positive for all distributions, and many &quot;</span>
+<span class="g g-Whitespace">   </span><span class="mi">1116</span>                <span class="s2">&quot;distributions have restrictions on shape parameters. &quot;</span>
+<span class="g g-Whitespace">   </span><span class="mi">1117</span>                <span class="sa">f</span><span class="s2">&quot;Please see the `scipy.stats.</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">` &quot;</span>
+<span class="g g-Whitespace">   </span><span class="mi">1118</span>                <span class="s2">&quot;documentation for details.&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1119</span>     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+
+<span class="nn">File ~/work/epidemic-simulation/epidemic-simulation/.venv/lib/python3.14/site-packages/numpy/_core/fromnumeric.py:2634,</span> in <span class="ni">all</span><span class="nt">(a, axis, out, keepdims, where)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2548</span> <span class="nd">@array_function_dispatch</span><span class="p">(</span><span class="n">_all_dispatcher</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2549</span> <span class="k">def</span><span class="w"> </span><span class="nf">all</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">_NoValue</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">_NoValue</span><span class="p">):</span>
+<span class="g g-Whitespace">   </span><span class="mi">2550</span><span class="w">     </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="g g-Whitespace">   </span><span class="mi">2551</span><span class="sd">     Test whether all array elements along a given axis evaluate to True.</span>
+<span class="g g-Whitespace">   </span><span class="mi">2552</span><span class="sd"> </span>
+<span class="sd">   (...)   2632 </span>
+<span class="g g-Whitespace">   </span><span class="mi">2633</span><span class="sd">     &quot;&quot;&quot;</span>
+<span class="ne">-&gt; </span><span class="mi">2634</span>     <span class="k">return</span> <span class="n">_wrapreduction_any_all</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">,</span> <span class="s1">&#39;all&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">2635</span>                                   <span class="n">keepdims</span><span class="o">=</span><span class="n">keepdims</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="n">where</span><span class="p">)</span>
+
+<span class="nn">File ~/work/epidemic-simulation/epidemic-simulation/.venv/lib/python3.14/site-packages/numpy/_core/fromnumeric.py:97,</span> in <span class="ni">_wrapreduction_any_all</span><span class="nt">(obj, ufunc, method, axis, out, **kwargs)</span>
+<span class="g g-Whitespace">     </span><span class="mi">95</span>         <span class="k">pass</span>
+<span class="g g-Whitespace">     </span><span class="mi">96</span>     <span class="k">else</span><span class="p">:</span>
+<span class="ne">---&gt; </span><span class="mi">97</span>         <span class="k">return</span> <span class="n">reduction</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">out</span><span class="p">,</span> <span class="o">**</span><span class="n">passkwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">99</span> <span class="k">return</span> <span class="n">ufunc</span><span class="o">.</span><span class="n">reduce</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">axis</span><span class="p">,</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="o">**</span><span class="n">passkwargs</span><span class="p">)</span>
+
+<span class="nn">File ~/work/epidemic-simulation/epidemic-simulation/.venv/lib/python3.14/site-packages/numpy/_core/_methods.py:70,</span> in <span class="ni">_all</span><span class="nt">(a, axis, dtype, out, keepdims, where)</span>
+<span class="g g-Whitespace">     </span><span class="mi">68</span> <span class="c1"># Parsing keyword arguments is currently fairly slow, so avoid it for now</span>
+<span class="g g-Whitespace">     </span><span class="mi">69</span> <span class="k">if</span> <span class="n">where</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+<span class="ne">---&gt; </span><span class="mi">70</span>     <span class="k">return</span> <span class="n">umr_all</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">axis</span><span class="p">,</span> <span class="n">dtype</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">keepdims</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">71</span> <span class="k">return</span> <span class="n">umr_all</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">axis</span><span class="p">,</span> <span class="n">dtype</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">keepdims</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="n">where</span><span class="p">)</span>
+
+<span class="ne">KeyboardInterrupt</span>: 
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="n">p_value_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">p_value_dict</span><span class="p">)</span>
+<span class="linenos">2</span><span class="n">ks_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">ks_dict</span><span class="p">)</span>
+<span class="linenos">3</span><span class="n">lambda_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">lambda_dict</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="n">p_value_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;data/results/p-value-evolution.csv&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="linenos">2</span><span class="n">ks_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;data/results/ks-evolution.csv&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="linenos">3</span><span class="n">lambda_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;data/results/lambda-evolution.csv&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="n">p_value_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;data/results/p-value-evolution.csv&quot;</span><span class="p">)</span>
+<span class="linenos">2</span><span class="n">ks_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;data/results/ks-evolution.csv&quot;</span><span class="p">)</span>
+<span class="linenos">3</span><span class="n">lambda_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;data/results/lambda-evolution.csv&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="n">distributions_df</span> <span class="o">=</span> <span class="n">create_distributions_df</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="n">lambda_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">distributions_df</span><span class="p">[</span><span class="s2">&quot;Lambda théorique loi exponentielle Z_n / n&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="graphiques">
+<h2>Graphiques<a class="headerlink" href="#graphiques" title="Link to this heading">#</a></h2>
+<section id="p-values">
+<h3>p-values<a class="headerlink" href="#p-values" title="Link to this heading">#</a></h3>
+<section id="toutes-les-lois-de-reproduction">
+<h4>Toutes les lois de reproduction<a class="headerlink" href="#toutes-les-lois-de-reproduction" title="Link to this heading">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="n">periode_lissage</span> <span class="o">=</span> <span class="mi">15</span>
+<span class="linenos"> 2</span>
+<span class="linenos"> 3</span><span class="n">p_value_df</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="n">window</span><span class="o">=</span><span class="n">periode_lissage</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="linenos"> 4</span><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span>
+<span class="linenos"> 5</span>    <span class="s2">&quot;Évolution des p-values (test KS loi exponentielle) pour $Z_n / n$ par loi&quot;</span>
+<span class="linenos"> 6</span>    <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">(lissé avec une fenêtre de taille </span><span class="si">{</span><span class="n">periode_lissage</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">,</span>
+<span class="linenos"> 7</span><span class="p">)</span>
+<span class="linenos"> 8</span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+<span class="linenos"> 9</span>    <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">periode_lissage</span><span class="p">,</span> <span class="n">nb_repetitions</span><span class="p">)),</span>
+<span class="linenos">10</span>    <span class="p">[</span><span class="n">alpha</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">periode_lissage</span><span class="p">,</span> <span class="n">nb_repetitions</span><span class="p">)],</span>
+<span class="linenos">11</span>    <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$\alpha = 0.05$&quot;</span><span class="p">,</span>
+<span class="linenos">12</span>    <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span>
+<span class="linenos">13</span>    <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;dashed&quot;</span><span class="p">,</span>
+<span class="linenos">14</span><span class="p">)</span>
+<span class="linenos">15</span><span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="linenos">16</span><span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;assets/img/p-values-evolution-all-laws.png&quot;</span><span class="p">)</span>
+<span class="linenos">17</span><span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;assets/img/p-values-evolution-all-laws.svg&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/a34a850f7d093090a5b998b878cb2d8c1bd8259a847fb870e5ebf70365e59851.png" src="../_images/a34a850f7d093090a5b998b878cb2d8c1bd8259a847fb870e5ebf70365e59851.png" />
+</div>
+</div>
+</section>
+<section id="lois-de-reproduction-groupees">
+<h4>Lois de reproduction groupées<a class="headerlink" href="#lois-de-reproduction-groupees" title="Link to this heading">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="n">groupe1</span> <span class="o">=</span> <span class="p">[</span>
+<span class="linenos"> 2</span>    <span class="s2">&quot;Poisson (λ = 1)&quot;</span><span class="p">,</span>
+<span class="linenos"> 3</span>    <span class="s2">&quot;Uniforme {0, 1, 2}&quot;</span><span class="p">,</span>
+<span class="linenos"> 4</span>    <span class="s2">&quot;Hyper-Géométrique (N=10, n=2, p=0.5)&quot;</span><span class="p">,</span>
+<span class="linenos"> 5</span>    <span class="s2">&quot;Hyper-Géométrique (N=100, n=10, p=0.1)&quot;</span><span class="p">,</span>
+<span class="linenos"> 6</span><span class="p">]</span>
+<span class="linenos"> 7</span>
+<span class="linenos"> 8</span><span class="n">groupe2</span> <span class="o">=</span> <span class="p">[</span>
+<span class="linenos"> 9</span>    <span class="s2">&quot;Binomiale (n=2, p=1/2)&quot;</span><span class="p">,</span>
+<span class="linenos">10</span>    <span class="s2">&quot;Binomiale (n=10, p=1/10)&quot;</span><span class="p">,</span>
+<span class="linenos">11</span>    <span class="s2">&quot;Binomiale (n=50, p=1/50)&quot;</span><span class="p">,</span>
+<span class="linenos">12</span>    <span class="s2">&quot;Négative Binomiale (n=1, p=0.5)&quot;</span><span class="p">,</span>
+<span class="linenos">13</span>    <span class="s2">&quot;Négative Binomiale (n=10, p=10/11)&quot;</span><span class="p">,</span>
+<span class="linenos">14</span><span class="p">]</span>
+<span class="linenos">15</span>
+<span class="linenos">16</span><span class="n">groupe3</span> <span class="o">=</span> <span class="p">[</span>
+<span class="linenos">17</span>    <span class="s2">&quot;Bêta-Binomiale (n=2, α=3, β=3)&quot;</span><span class="p">,</span>
+<span class="linenos">18</span>    <span class="s2">&quot;Bêta-Binomiale (n=5, α=5, β=20)&quot;</span><span class="p">,</span>
+<span class="linenos">19</span>    <span class="s2">&quot;Bêta-Binomiale (n=3, α=5, β=10)&quot;</span><span class="p">,</span>
+<span class="linenos">20</span>    <span class="s2">&quot;Bêta-Binomiale (n=10, α=5, β=45)&quot;</span><span class="p">,</span>
+<span class="linenos">21</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="n">periode_lissage</span> <span class="o">=</span> <span class="mi">15</span>
+<span class="linenos"> 2</span>
+<span class="linenos"> 3</span><span class="n">p_value_df</span><span class="p">[</span><span class="s2">&quot;Hyper-Géométrique (N=100, n=10, p=0.1)&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span>
+<span class="linenos"> 4</span>    <span class="n">window</span><span class="o">=</span><span class="n">periode_lissage</span><span class="p">,</span>
+<span class="linenos"> 5</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="linenos"> 6</span>
+<span class="linenos"> 7</span><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span>
+<span class="linenos"> 8</span>    <span class="s2">&quot;Évolution de la p-value (test KS loi exponentielle) pour $Z_n / n$&quot;</span>
+<span class="linenos"> 9</span>    <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">(lissé avec une fenêtre de taille </span><span class="si">{</span><span class="n">periode_lissage</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">,</span>
+<span class="linenos">10</span><span class="p">)</span>
+<span class="linenos">11</span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+<span class="linenos">12</span>    <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">periode_lissage</span><span class="p">,</span> <span class="n">nb_repetitions</span><span class="p">)),</span>
+<span class="linenos">13</span>    <span class="p">[</span><span class="n">alpha</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">periode_lissage</span><span class="p">,</span> <span class="n">nb_repetitions</span><span class="p">)],</span>
+<span class="linenos">14</span>    <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$\alpha = 0.05$&quot;</span><span class="p">,</span>
+<span class="linenos">15</span>    <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span>
+<span class="linenos">16</span>    <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;dashed&quot;</span><span class="p">,</span>
+<span class="linenos">17</span><span class="p">)</span>
+<span class="linenos">18</span><span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="linenos">19</span><span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;data/plots/evolution/p-value-hypergeom.png&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/cc7ce444990481408126e38e3dc8740e99cf52a81de633560e1c8f3fc46aeee6.png" src="../_images/cc7ce444990481408126e38e3dc8740e99cf52a81de633560e1c8f3fc46aeee6.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="n">periode_lissage</span> <span class="o">=</span> <span class="mi">15</span>
+<span class="linenos"> 2</span>
+<span class="linenos"> 3</span><span class="n">p_value_df</span><span class="p">[</span><span class="n">groupe1</span><span class="p">]</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="n">window</span><span class="o">=</span><span class="n">periode_lissage</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="linenos"> 4</span>
+<span class="linenos"> 5</span><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span>
+<span class="linenos"> 6</span>    <span class="s2">&quot;Évolution des p-values (test KS loi exponentielle) pour $Z_n / n$ par loi&quot;</span>
+<span class="linenos"> 7</span>    <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">(lissé avec une fenêtre de taille </span><span class="si">{</span><span class="n">periode_lissage</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">,</span>
+<span class="linenos"> 8</span><span class="p">)</span>
+<span class="linenos"> 9</span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+<span class="linenos">10</span>    <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">periode_lissage</span><span class="p">,</span> <span class="n">nb_repetitions</span><span class="p">)),</span>
+<span class="linenos">11</span>    <span class="p">[</span><span class="n">alpha</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">periode_lissage</span><span class="p">,</span> <span class="n">nb_repetitions</span><span class="p">)],</span>
+<span class="linenos">12</span>    <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$\alpha = 0.05$&quot;</span><span class="p">,</span>
+<span class="linenos">13</span>    <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span>
+<span class="linenos">14</span>    <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;dashed&quot;</span><span class="p">,</span>
+<span class="linenos">15</span><span class="p">)</span>
+<span class="linenos">16</span><span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="linenos">17</span><span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;data/plots/evolution/p-value-group1.png&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/27fca94931b13d55b4fc7eab6c576d869d5a72eb849ece13228039103950df24.png" src="../_images/27fca94931b13d55b4fc7eab6c576d869d5a72eb849ece13228039103950df24.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="n">periode_lissage</span> <span class="o">=</span> <span class="mi">15</span>
+<span class="linenos"> 2</span>
+<span class="linenos"> 3</span><span class="n">p_value_df</span><span class="p">[</span><span class="n">groupe2</span><span class="p">]</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="n">window</span><span class="o">=</span><span class="n">periode_lissage</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="linenos"> 4</span>
+<span class="linenos"> 5</span><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span>
+<span class="linenos"> 6</span>    <span class="s2">&quot;Évolution des p-values (test KS loi exponentielle) pour $Z_n / n$ par loi&quot;</span>
+<span class="linenos"> 7</span>    <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">(lissé avec une fenêtre de taille </span><span class="si">{</span><span class="n">periode_lissage</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">,</span>
+<span class="linenos"> 8</span><span class="p">)</span>
+<span class="linenos"> 9</span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+<span class="linenos">10</span>    <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">periode_lissage</span><span class="p">,</span> <span class="n">nb_repetitions</span><span class="p">)),</span>
+<span class="linenos">11</span>    <span class="p">[</span><span class="n">alpha</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">periode_lissage</span><span class="p">,</span> <span class="n">nb_repetitions</span><span class="p">)],</span>
+<span class="linenos">12</span>    <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$\alpha = 0.05$&quot;</span><span class="p">,</span>
+<span class="linenos">13</span>    <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span>
+<span class="linenos">14</span>    <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;dashed&quot;</span><span class="p">,</span>
+<span class="linenos">15</span><span class="p">)</span>
+<span class="linenos">16</span><span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="linenos">17</span>
+<span class="linenos">18</span><span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;data/plots/evolution/p-value-group2.png&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/11c9da51efbf6c1a2bae976397c7ead9e4072e8d1ee5aff1f44c185334b356f8.png" src="../_images/11c9da51efbf6c1a2bae976397c7ead9e4072e8d1ee5aff1f44c185334b356f8.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="n">periode_lissage</span> <span class="o">=</span> <span class="mi">15</span>
+<span class="linenos"> 2</span>
+<span class="linenos"> 3</span><span class="n">p_value_df</span><span class="p">[</span><span class="n">groupe3</span><span class="p">]</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="n">window</span><span class="o">=</span><span class="n">periode_lissage</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="linenos"> 4</span>
+<span class="linenos"> 5</span><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span>
+<span class="linenos"> 6</span>    <span class="s2">&quot;Évolution des p-values (test KS loi exponentielle) pour $Z_n / n$ par loi&quot;</span>
+<span class="linenos"> 7</span>    <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">(lissé avec une fenêtre de taille </span><span class="si">{</span><span class="n">periode_lissage</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">,</span>
+<span class="linenos"> 8</span><span class="p">)</span>
+<span class="linenos"> 9</span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+<span class="linenos">10</span>    <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">periode_lissage</span><span class="p">,</span> <span class="n">nb_repetitions</span><span class="p">)),</span>
+<span class="linenos">11</span>    <span class="p">[</span><span class="n">alpha</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">periode_lissage</span><span class="p">,</span> <span class="n">nb_repetitions</span><span class="p">)],</span>
+<span class="linenos">12</span>    <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$\alpha = 0.05$&quot;</span><span class="p">,</span>
+<span class="linenos">13</span>    <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span>
+<span class="linenos">14</span>    <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;dashed&quot;</span><span class="p">,</span>
+<span class="linenos">15</span><span class="p">)</span>
+<span class="linenos">16</span><span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="linenos">17</span>
+<span class="linenos">18</span><span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;data/plots/evolution/p-value-group3.png&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/d154b241707108b638a0fb42833521fafac520ce4efc8fc26451dfb79c5c2994.png" src="../_images/d154b241707108b638a0fb42833521fafac520ce4efc8fc26451dfb79c5c2994.png" />
+</div>
+</div>
+</section>
+</section>
+<section id="statistique-ks">
+<h3>Statistique KS<a class="headerlink" href="#statistique-ks" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="k">for</span> <span class="n">group_name</span><span class="p">,</span> <span class="n">group</span> <span class="ow">in</span> <span class="p">(</span>
+<span class="linenos"> 2</span>    <span class="p">(</span><span class="s2">&quot;group1&quot;</span><span class="p">,</span> <span class="n">groupe1</span><span class="p">),</span>
+<span class="linenos"> 3</span>    <span class="p">(</span><span class="s2">&quot;group2&quot;</span><span class="p">,</span> <span class="n">groupe2</span><span class="p">),</span>
+<span class="linenos"> 4</span>    <span class="p">(</span><span class="s2">&quot;group3&quot;</span><span class="p">,</span> <span class="n">groupe3</span><span class="p">),</span>
+<span class="linenos"> 5</span><span class="p">):</span>
+<span class="linenos"> 6</span>    <span class="n">ks_df</span><span class="p">[</span><span class="n">group</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="linenos"> 7</span>
+<span class="linenos"> 8</span>    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span>
+<span class="linenos"> 9</span>        <span class="s2">&quot;Évolution de la valeur du test KS (loi exponentielle) pour $Z_n / n$ par loi&quot;</span><span class="p">,</span>
+<span class="linenos">10</span>    <span class="p">)</span>
+<span class="linenos">11</span>
+<span class="linenos">12</span>    <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;data/plots/evolution/ks-</span><span class="si">{</span><span class="n">group_name</span><span class="si">}</span><span class="s2">.png&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/6cfad71dcbe2ddc42a8e3682bd0f1333c49b2d9e179dbd877f51ecd659c3f6cb.png" src="../_images/6cfad71dcbe2ddc42a8e3682bd0f1333c49b2d9e179dbd877f51ecd659c3f6cb.png" />
+<img alt="../_images/66c4bd906e666e43de262e1fb541eef37af99955bc8d64328789bee008482c3f.png" src="../_images/66c4bd906e666e43de262e1fb541eef37af99955bc8d64328789bee008482c3f.png" />
+<img alt="../_images/4b566d6b830848fedbf4fe4f89c1c8ac04e0e65308f57e423dc8d01e3c8c4aeb.png" src="../_images/4b566d6b830848fedbf4fe4f89c1c8ac04e0e65308f57e423dc8d01e3c8c4aeb.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="n">ks_df</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="linenos">2</span>
+<span class="linenos">3</span><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span>
+<span class="linenos">4</span>    <span class="s2">&quot;Évolution de la valeur du test KS (loi exponentielle) pour $Z_n / n$ par loi&quot;</span><span class="p">,</span>
+<span class="linenos">5</span><span class="p">)</span>
+<span class="linenos">6</span>
+<span class="linenos">7</span><span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;data/plots/evolution/ks-all.png&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/39306e352da5b4c174f78b9f941797d456a9f8c4e14daa2438f90c122c451068.png" src="../_images/39306e352da5b4c174f78b9f941797d456a9f8c4e14daa2438f90c122c451068.png" />
+</div>
+</div>
+</section>
+<section id="distance-au-lambda-theorique">
+<h3>Distance au lambda théorique<a class="headerlink" href="#distance-au-lambda-theorique" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="k">for</span> <span class="n">group_name</span><span class="p">,</span> <span class="n">group</span> <span class="ow">in</span> <span class="p">(</span>
+<span class="linenos"> 2</span>    <span class="p">(</span><span class="s2">&quot;group1&quot;</span><span class="p">,</span> <span class="n">groupe1</span><span class="p">),</span>
+<span class="linenos"> 3</span>    <span class="p">(</span><span class="s2">&quot;group2&quot;</span><span class="p">,</span> <span class="n">groupe2</span><span class="p">),</span>
+<span class="linenos"> 4</span>    <span class="p">(</span><span class="s2">&quot;group3&quot;</span><span class="p">,</span> <span class="n">groupe3</span><span class="p">),</span>
+<span class="linenos"> 5</span><span class="p">):</span>
+<span class="linenos"> 6</span>    <span class="n">index</span> <span class="o">=</span> <span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">lambda_df</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">group</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">group</span><span class="p">))]</span>
+<span class="linenos"> 7</span>
+<span class="linenos"> 8</span>    <span class="nb">abs</span><span class="p">(</span><span class="n">lambda_df</span><span class="p">[</span><span class="n">group</span><span class="p">]</span> <span class="o">-</span> <span class="n">lambda_array</span><span class="p">[</span><span class="n">index</span><span class="p">])</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="linenos"> 9</span>
+<span class="linenos">10</span>    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span>
+<span class="linenos">11</span>        <span class="sa">r</span><span class="s2">&quot;Évolution de la distance au lambda théorique $|\lambda_</span><span class="si">{théorique}</span><span class="s2"> - \lambda_{\hat</span><span class="si">{EMV}</span><span class="s2">}|$ pour $Z_n / n$ par loi&quot;</span><span class="p">,</span>
+<span class="linenos">12</span>    <span class="p">)</span>
+<span class="linenos">13</span>
+<span class="linenos">14</span>    <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;data/plots/evolution/lambda-distance-</span><span class="si">{</span><span class="n">group_name</span><span class="si">}</span><span class="s2">.png&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/d8b52b189167c69cbc11d6ae65454bbb2aa8b7df487272f7dfc54d17580ce9c6.png" src="../_images/d8b52b189167c69cbc11d6ae65454bbb2aa8b7df487272f7dfc54d17580ce9c6.png" />
+<img alt="../_images/f8fba886d392a905b9a5f1161310d1ded18dedc7bf9ca371f1e5825edfc771bb.png" src="../_images/f8fba886d392a905b9a5f1161310d1ded18dedc7bf9ca371f1e5825edfc771bb.png" />
+<img alt="../_images/5be292c72c98763c3bdc44026a5a2203a4d59256069dbe0e4e1fbfc4a96f7e97.png" src="../_images/5be292c72c98763c3bdc44026a5a2203a4d59256069dbe0e4e1fbfc4a96f7e97.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="nb">abs</span><span class="p">(</span><span class="n">lambda_df</span> <span class="o">-</span> <span class="n">lambda_array</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="linenos">2</span>
+<span class="linenos">3</span><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span>
+<span class="linenos">4</span>    <span class="sa">r</span><span class="s2">&quot;Évolution de la distance au lambda théorique $|\lambda_</span><span class="si">{théorique}</span><span class="s2"> - \lambda_{\hat</span><span class="si">{EMV}</span><span class="s2">}|$ pour $Z_n / n$ par loi&quot;</span><span class="p">,</span>
+<span class="linenos">5</span><span class="p">)</span>
+<span class="linenos">6</span>
+<span class="linenos">7</span><span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;data/plots/evolution/lambda-distance-all.png&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/1922fe2bf8b4b6634b75f8f87e825d42e20258e1f160ef15b98d24f7e3377af7.png" src="../_images/1922fe2bf8b4b6634b75f8f87e825d42e20258e1f160ef15b98d24f7e3377af7.png" />
+</div>
+</div>
+</section>
+<section id="evolution-de-la-distribution">
+<h3>Évolution de la distribution<a class="headerlink" href="#evolution-de-la-distribution" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="n">sim</span> <span class="o">=</span> <span class="n">SimulateurGaltonWatson</span><span class="p">(</span>
+<span class="linenos"> 2</span>    <span class="n">distributions</span><span class="p">[</span><span class="s2">&quot;Hyper-Géométrique (N=10, n=2, p=0.5)&quot;</span><span class="p">],</span>
+<span class="linenos"> 3</span>    <span class="n">nb_processus</span><span class="o">=</span><span class="mi">10_000</span><span class="p">,</span>
+<span class="linenos"> 4</span><span class="p">)</span>
+<span class="linenos"> 5</span><span class="n">taille_pas</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="linenos"> 6</span><span class="n">nb_repetitions</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="linenos"> 7</span><span class="n">taille_echantillon</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="linenos"> 8</span>
+<span class="linenos"> 9</span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nb_repetitions</span><span class="p">):</span>
+<span class="linenos">10</span>    <span class="n">sim</span><span class="o">.</span><span class="n">simule</span><span class="p">(</span><span class="n">nb_epoques</span><span class="o">=</span><span class="n">taille_pas</span><span class="p">)</span>
+<span class="linenos">11</span>    <span class="n">sim</span><span class="o">.</span><span class="n">retire_processus_eteints</span><span class="p">()</span>
+<span class="linenos">12</span>
+<span class="linenos">13</span>    <span class="n">zn_sur_n</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">get_zn_sur_n</span><span class="p">()</span>
+<span class="linenos">14</span>    <span class="n">zn_sur_n_sample</span> <span class="o">=</span> <span class="n">zn_sur_n</span><span class="p">[</span><span class="n">taille_echantillon</span><span class="p">:]</span>
+<span class="linenos">15</span>
+<span class="linenos">16</span>    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span>
+<span class="linenos">17</span>        <span class="sa">r</span><span class="s2">&quot;Distribution des $\dfrac</span><span class="si">{Z_n}{n}</span><span class="s2">$ à l&#39;époque $n = &quot;</span>
+<span class="linenos">18</span>        <span class="o">+</span> <span class="nb">str</span><span class="p">((</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">taille_pas</span><span class="p">)</span>
+<span class="linenos">19</span>        <span class="o">+</span> <span class="s2">&quot;$&quot;</span><span class="p">,</span>
+<span class="linenos">20</span>    <span class="p">)</span>
+<span class="linenos">21</span>    <span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">zn_sur_n_sample</span><span class="p">,</span> <span class="n">stat</span><span class="o">=</span><span class="s2">&quot;density&quot;</span><span class="p">)</span>
+<span class="linenos">22</span>    <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;data/results/distribution/hyper-geo-</span><span class="si">{</span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">taille_pas</span><span class="si">}</span><span class="s2">.png&quot;</span><span class="p">)</span>
+<span class="linenos">23</span>    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="linenos">24</span>
+<span class="linenos">25</span>    <span class="n">p_value</span><span class="p">,</span> <span class="n">statistique_ks</span> <span class="o">=</span> <span class="n">test_loi_exponentielle</span><span class="p">(</span><span class="n">zn_sur_n</span><span class="p">)</span>
+<span class="linenos">26</span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">p_value</span><span class="w"> </span><span class="si">= }</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/e0db692f4f112fe8afb8bfe74e3c74bd8ca27622370255ad4d706bd2d395bf9c.png" src="../_images/e0db692f4f112fe8afb8bfe74e3c74bd8ca27622370255ad4d706bd2d395bf9c.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>p_value = 0.0
+</pre></div>
+</div>
+<img alt="../_images/d4e8b7911fcff794ac04576547563d09d301514f5a1f0908b229abaf993f5253.png" src="../_images/d4e8b7911fcff794ac04576547563d09d301514f5a1f0908b229abaf993f5253.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>p_value = 9.622011434558595e-152
+</pre></div>
+</div>
+<img alt="../_images/1e648ee7780e4e43fe2592f07422ff71e4f4e71612704db5fb667f77d2d96e96.png" src="../_images/1e648ee7780e4e43fe2592f07422ff71e4f4e71612704db5fb667f77d2d96e96.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>p_value = 2.827435930932723e-70
+</pre></div>
+</div>
+<img alt="../_images/87de093003958201c87109c1bac671fb702beffa6b5de78b6853186e1be5af0c.png" src="../_images/87de093003958201c87109c1bac671fb702beffa6b5de78b6853186e1be5af0c.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>p_value = 2.8210546622397323e-39
+</pre></div>
+</div>
+<img alt="../_images/7eb9d4fb5fad55aeb1f434cfa7b27699983a532d550ed4085598b2f4da51c586.png" src="../_images/7eb9d4fb5fad55aeb1f434cfa7b27699983a532d550ed4085598b2f4da51c586.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>p_value = 3.2216117932465623e-24
+</pre></div>
+</div>
+<img alt="../_images/495e2a955a7f80b19e125f1e896dee7ffb988ad7b1abdee8d64ab95ce1ffdb13.png" src="../_images/495e2a955a7f80b19e125f1e896dee7ffb988ad7b1abdee8d64ab95ce1ffdb13.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>p_value = 7.887052073352042e-20
+</pre></div>
+</div>
+<img alt="../_images/c960ba78ebd9b129ace1a7e199aaeef11921970bdc4d44f31f3198b4aaaffe1e.png" src="../_images/c960ba78ebd9b129ace1a7e199aaeef11921970bdc4d44f31f3198b4aaaffe1e.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>p_value = 3.461167774975927e-12
+</pre></div>
+</div>
+<img alt="../_images/87a11985c9e049ebccd9781efc32ab561036e9beb5ab741a9e4b5f7a901af296.png" src="../_images/87a11985c9e049ebccd9781efc32ab561036e9beb5ab741a9e4b5f7a901af296.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>p_value = 1.7994986428624622e-12
+</pre></div>
+</div>
+<img alt="../_images/2c9f6e24b7bbf5ed4c634378e04317b71f67f4a3d69a6cb6a012aebff3118592.png" src="../_images/2c9f6e24b7bbf5ed4c634378e04317b71f67f4a3d69a6cb6a012aebff3118592.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>p_value = 7.08994488987903e-08
+</pre></div>
+</div>
+<img alt="../_images/603aa0f205aa0413bfc0160beeaa825f974f092c4f7da73c29d1c056f3cf9c40.png" src="../_images/603aa0f205aa0413bfc0160beeaa825f974f092c4f7da73c29d1c056f3cf9c40.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>p_value = 3.728747180083857e-08
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="graphique-transparent-pour-le-style">
+<h3>Graphique transparent (pour le style)<a class="headerlink" href="#graphique-transparent-pour-le-style" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="n">periode_lissage</span> <span class="o">=</span> <span class="mi">15</span>
+<span class="linenos"> 2</span><span class="n">p_value_df</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="n">window</span><span class="o">=</span><span class="n">periode_lissage</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">legend</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="linenos"> 3</span>
+<span class="linenos"> 4</span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+<span class="linenos"> 5</span>    <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">periode_lissage</span><span class="p">,</span> <span class="n">nb_repetitions</span><span class="p">)),</span>
+<span class="linenos"> 6</span>    <span class="p">[</span><span class="n">alpha</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">periode_lissage</span><span class="p">,</span> <span class="n">nb_repetitions</span><span class="p">)],</span>
+<span class="linenos"> 7</span>    <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$\alpha = 0.05$&quot;</span><span class="p">,</span>
+<span class="linenos"> 8</span>    <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span>
+<span class="linenos"> 9</span>    <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;dashed&quot;</span><span class="p">,</span>
+<span class="linenos">10</span><span class="p">)</span>
+<span class="linenos">11</span><span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+<span class="linenos">12</span>
+<span class="linenos">13</span><span class="c1"># Remove both x and y axes</span>
+<span class="linenos">14</span><span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
+<span class="linenos">15</span><span class="c1"># Hide major ticks and labels on the x-axis</span>
+<span class="linenos">16</span><span class="n">plt</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s2">&quot;major&quot;</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">labelbottom</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="linenos">17</span>
+<span class="linenos">18</span><span class="c1"># Hide major ticks and labels on the y-axis</span>
+<span class="linenos">19</span><span class="n">plt</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s2">&quot;major&quot;</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">labelleft</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="linenos">20</span><span class="c1"># plt.savefig(&quot;assets/img/p-values-evolution-all-laws.svg&quot;)</span>
+<span class="linenos">21</span>
+<span class="linenos">22</span><span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;assets/img/p-values-evolution-all-laws-transparent.png&quot;</span><span class="p">,</span> <span class="n">transparent</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/9fe53747005dbe64c4d2bc086e3deb29b15ac488ba6d130d783a691ff95b5dbb.png" src="../_images/9fe53747005dbe64c4d2bc086e3deb29b15ac488ba6d130d783a691ff95b5dbb.png" />
+</div>
+</div>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="galton-watson.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Simulation Galton-Watson</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../maths/yaglom-theorem.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Théorème de Yaglom</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mise-au-propre-yaglom">Mise au propre Yaglom</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#graphiques">Graphiques</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#p-values">p-values</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#toutes-les-lois-de-reproduction">Toutes les lois de reproduction</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#lois-de-reproduction-groupees">Lois de reproduction groupées</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#statistique-ks">Statistique KS</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distance-au-lambda-theorique">Distance au lambda théorique</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#evolution-de-la-distribution">Évolution de la distribution</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#graphique-transparent-pour-le-style">Graphique transparent (pour le style)</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Ab2nour, jExbrayat
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024, Ab2nour, jExbrayat.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
